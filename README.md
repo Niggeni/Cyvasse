@@ -8,7 +8,7 @@ Es handelt sich hierbei um ein Brettspiel, welches in vielen Aspekten an Schach 
 
 ### Features:
 ##### Essentielle Features:
--[] Grafikunterstützte Oberfläche
-  - [] Texturen für Spielfiguren
-  - [] Texturen für Spielfeld
+-[ ] Grafikunterstützte Oberfläche
+  - [ ] Texturen für Spielfiguren
+  - [ ] Texturen für Spielfeld
 ##### optionale Features:
