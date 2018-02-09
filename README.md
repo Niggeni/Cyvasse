@@ -13,11 +13,9 @@ Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse
 - [ ] Grafikunterstützte Oberfläche
   - [ ] Texturen für Spielfiguren
   - [ ] Texturen für Spielfeld
-  
 - [ ] Spielfiguren mit Maus bewegen
   - [ ] Nur legale Züge werden zugelassen
   - [ ] Spielfigur entfernen, wenn sie geschlagen wurden
-  
 - [ ] Aufbauphase
   - [ ] Wenn Spieler 2 am Zug ist wird der dem anderen Spieler gehörende Teil des Spielfelds abgedeckt
 
