@@ -5,7 +5,7 @@
 ### Beschreibung:
 "Cyvasse" ist ein Strategiespiel aus der Fantasy-Reihe "A Song of Ice and Fire" von George R. R. Martin.
 Es handelt sich hierbei um ein Brettspiel, welches in vielen Aspekten an Schach erinnert. Dieses Projekt dient der Entwicklung eines Programms, mit welchem zwei Personen lokal gegeneinander spielen können.
-Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse.com/ , können aber gegebenenfalls noch angepasst werden.
+Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse.com/ , können aber unter Umständen noch angepasst werden.
 
 
 ### Inhalte:
@@ -22,6 +22,8 @@ Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse
 ##### Optionale Features:
 - [ ] Fehlermeldungen bei nicht legalen Zügen
 - [ ] Legale Spielzüge werden angezeigt
+- [ ] "Zug zurück" Option, "Wiederhol"- Option
+- [ ] Anzeige des Regelwerks im Spiel
 - [ ] interaktives Tutorial
 - [ ] Siegesbildschirm und Zugcounter
 - [ ] Sound
