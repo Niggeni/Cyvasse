@@ -11,8 +11,8 @@ Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse
 ### Inhalte:
 ##### Essentielle Inhalte:
 - [ ] Grafikunterstützte Oberfläche
-  - [ ] Texturen für Spielfiguren
-  - [ ] Texturen für Spielfeld
+  - [ ] Texturen für Spielfiguren (10x2) Bilder 128x128 Px
+  - [ ] Texturen für Spielfeld (Größe: 8x8) Bilder 128x128 Px
 - [ ] Spielfiguren mit Maus bewegen
   - [ ] Nur legale Züge werden zugelassen
   - [ ] Spielfigur entfernen, wenn sie geschlagen wurden
@@ -24,6 +24,7 @@ Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse
 - [ ] Legale Spielzüge werden angezeigt
 - [ ] "Zug zurück" Option, "Wiederhol"- Option
 - [ ] Anzeige des Regelwerks im Spiel
+- [ ] Menü
 - [ ] interaktives Tutorial
 - [ ] Siegesbildschirm und Zugcounter
 - [ ] Sound
