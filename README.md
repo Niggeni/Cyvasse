@@ -28,3 +28,4 @@ Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse
 - [ ] interaktives Tutorial
 - [ ] Siegesbildschirm und Zugcounter
 - [ ] Sound
+ 
