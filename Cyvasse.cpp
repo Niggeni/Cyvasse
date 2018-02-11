@@ -13,7 +13,7 @@ int main(int, char**) {
     surf = SDL_GetWindowSurface(win);
     SDL_Surface *Pieces = IMG_Load("Sources/Dragon-head-silhouette/Pieces.png");
     SDL_Surface *Board = IMG_Load("Sources/Board.png");
-    SDL_Rect Piecerect = {x: 0, y: 0, w:4*128, h:128};
+    SDL_Rect Piecerect = {x: 0, y: 0, w:5*128, h:2*128};
     SDL_Rect Boardrect = {x: 0, y: 0, w:8*128, h:8*128};
     SDL_Rect dest = {x: 0, y: 0, w:128, h:128};;
     SDL_BlitSurface(Board, &Boardrect, surf, NULL);
