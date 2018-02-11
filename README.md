@@ -1,6 +1,6 @@
 # Cyvasse Projekt
 ### Mitglieder:
--Nils Niggemann 
+-Nils Niggemann
 
 ### Beschreibung:
 "Cyvasse" ist ein Strategiespiel aus der Fantasy-Reihe "A Song of Ice and Fire" von George R. R. Martin.
