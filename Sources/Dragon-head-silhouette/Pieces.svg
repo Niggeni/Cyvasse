@@ -16,7 +16,10 @@
    version="1.1"
    id="svg252"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="Pieces.svg">
+   sodipodi:docname="Pieces.svg"
+   inkscape:export-filename="C:\Users\Nils\Documents\Arbeit\Physik\5. Semester\Cpp\Kurs\Cyvasse\Sources\Dragon-head-silhouette\Pieces.png"
+   inkscape:export-xdpi="17.708559"
+   inkscape:export-ydpi="17.708559">
   <defs
      id="defs246">
     <linearGradient
@@ -1885,9 +1888,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497474"
-     inkscape:cx="687.55349"
-     inkscape:cy="641.83139"
+     inkscape:zoom="0.175"
+     inkscape:cx="2175.6622"
+     inkscape:cy="270.57077"
      inkscape:document-units="mm"
      inkscape:current-layer="layer3"
      showgrid="false"
