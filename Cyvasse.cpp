@@ -8,6 +8,31 @@
 #include <math.h>
 #include "Pieces.h"
 using namespace std;
+class Figur{
+    private:
+        SDL_Surface *surf;
+        SDL_Surface *Pieces;
+        SDL_Rect Rect;
+        SDL_Rect source;
+        SDL_Rect dest;
+        int x;
+        int y;
+        int Team;
+        int Typ;
+    public:
+        Figur(int,int,SDL_Window*);
+        void aktualisieren();
+        void bewegen(int,int);
+};
+Figur::Figur(int xpos,int ypos,,int Teamvar,int Typvar,SDL_Window *win){
+    x = xpos;
+    y = ypos;
+    Team = Teamvar;
+    Typ = Typvar;
+    source = {x: 32*numx, y: 32*numy, w:32, h:32};
+    Pieces = IMG_Load("Sources/Pieces/Pieces.png");
+    surf = SDL_GetWindowSurface(win);
+}
 int main(int, char**) {
     std::cout << add(2,2) << '\n';
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
