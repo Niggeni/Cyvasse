@@ -6,8 +6,10 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include "Pieces.h"
 using namespace std;
 int main(int, char**) {
+    std::cout << add(2,2) << '\n';
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
     SDL_Surface *surf;
     surf = SDL_GetWindowSurface(win);
