@@ -20,7 +20,7 @@ class Spielfeld{
 };
 Spielfeld::Spielfeld(SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
-    dest =  {x:300,y:0,w:1920,h:1080};
+    dest =  {x:448,y:28,w:1920,h:1080};
     Feld = IMG_Load("Sources/Board.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
 }
@@ -53,7 +53,7 @@ Figur::Figur(int xpos,int ypos,int Teamvar,int Typvar,SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
 }
 void Figur::aktualisieren(){
-    Rect = {x:x*128+300,y:y*128,w:128,h:128};
+    Rect = {x:x*128+448,y:y*128+28,w:128,h:128};
     SDL_BlitSurface(Pieces,&source,surf,&Rect);
 }
 int main(int, char**) {
@@ -62,15 +62,14 @@ int main(int, char**) {
     vector<Figur*> Figuren;
     for (int i = 0; i < 5; i++) {
         for (int j = 0;j<2;j++){
-            Figur *currfig = new Figur(i,8-j,j,i,win);
+            Figur *currfig = new Figur(i,j + j*(7-j),j,i,win);
             Figuren.push_back(currfig);
         }
     }
-    Figur Drache(2,2,0,1,win);
-    Figur Lightcav(2,4,1,3,win);
     Brett.aktualisieren();
-    Drache.aktualisieren();
-    Lightcav.aktualisieren();
+    for (int i = 0; i < int(Figuren.size()); i++) {
+        Figuren[i]->aktualisieren();
+    }
     SDL_UpdateWindowSurface(win);
     SDL_Delay(100000);
     return 1;
