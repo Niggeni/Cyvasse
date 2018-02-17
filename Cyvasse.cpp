@@ -12,6 +12,7 @@ class Spielfeld{
     private:
         SDL_Surface *surf;
         SDL_Surface *Feld;
+        SDL_Surface *Back;
         SDL_Rect source;
         SDL_Rect dest;
     public:
@@ -22,10 +23,12 @@ Spielfeld::Spielfeld(SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
     dest =  {x:448,y:28,w:1920,h:1080};
     Feld = IMG_Load("Sources/Board.png");
+    Back = IMG_Load("Sources/Back.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
 }
 void Spielfeld::aktualisieren(/* arguments */) {
-    SDL_BlitSurface(Feld,&source,surf,&dest);
+    //SDL_BlitSurface(Back,NULL,surf,NULL);
+    SDL_BlitSurface(Feld,NULL,surf,NULL);
 }
 class Figur{
     private:
