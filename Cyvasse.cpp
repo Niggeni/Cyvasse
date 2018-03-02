@@ -48,7 +48,7 @@ class Figur{
 };
 Figur::Figur(int xpos,int ypos,int Teamvar,int Typvar,SDL_Window *win){
     x = xpos;
-    y = ypos;
+    y = ypos; 
     Team = Teamvar;
     Typ = Typvar;
     source = {x: 128*Typ, y: 128*Team, w:128, h:128};
@@ -72,7 +72,7 @@ int main(int, char**) {
     Brett.aktualisieren();
     for (int i = 0; i < int(Figuren.size()); i++) {
         Figuren[i]->aktualisieren();
-    } 
+    }
     SDL_UpdateWindowSurface(win);
     SDL_Delay(100000);
     return 1;
