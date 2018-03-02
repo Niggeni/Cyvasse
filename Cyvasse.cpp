@@ -42,7 +42,7 @@ class Figur{
         int Team;
         int Typ;
     public:
-        Figur(int,int,int,int,SDL_Window*);
+        Figur(int,int,int,int,SDL_Window*); 
         void aktualisieren();
         //void bewegen(int,int);
 };
