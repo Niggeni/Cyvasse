@@ -72,9 +72,9 @@ int main(int, char**) {
     Brett.aktualisieren();
     for (int i = 0; i < int(Figuren.size()); i++) {
         Figuren[i]->aktualisieren();
-    }
+    } 
     SDL_UpdateWindowSurface(win);
     SDL_Delay(100000);
     return 1;
-    
+
 }
