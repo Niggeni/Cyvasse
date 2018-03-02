@@ -42,7 +42,7 @@ class Figur{
         int Team;
         int Typ;
     public:
-        Figur(int,int,int,int,SDL_Window*); 
+        Figur(int,int,int,int,SDL_Window*);
         void aktualisieren();
         //void bewegen(int,int);
 };
@@ -71,7 +71,7 @@ int main(int, char**) {
     }
     Brett.aktualisieren();
     for (int i = 0; i < int(Figuren.size()); i++) {
-        Figuren[i]->aktualisieren();
+        Figuren[i]->aktualisieren(); 
     }
     SDL_UpdateWindowSurface(win);
     SDL_Delay(100000);
