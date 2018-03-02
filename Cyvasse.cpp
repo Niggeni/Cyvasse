@@ -76,4 +76,5 @@ int main(int, char**) {
     SDL_UpdateWindowSurface(win);
     SDL_Delay(100000);
     return 1;
+    
 }
