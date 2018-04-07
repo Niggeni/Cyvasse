@@ -18,7 +18,7 @@ class Spielfeld{
     public:
         Spielfeld(SDL_Window*);
         void aktualisieren();
-        void getinput(const Uint8*);
+        void getinput(SDL_Event);
 };
 Spielfeld::Spielfeld(SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
@@ -31,7 +31,13 @@ void Spielfeld::aktualisieren(/* arguments */) {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
     SDL_BlitSurface(Feld,NULL,surf,NULL);
 }
-void Spielfeld::getinput(const Uint8 *keystate){
+void Spielfeld::getinput(SDL_Event e){
+    if (e.type == SDL_MOUSEBUTTONDOWN) {
+        int Feld_x = (e.button.x-448)/128;
+        int Feld_y = (e.button.y-28)/128;
+        std::cout << Feld_y << '\n';
+        std::cout << Feld_x << '\n';
+    }
 }
 class Figur{
     protected:
@@ -101,6 +107,7 @@ int main(int, char**) {
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
     Spielfeld Brett(win);
     vector<Figur*> Figuren;
+    SDL_Event Event;
     for (int j = 0;j<2;j++){
         Figuren.push_back(new King(0,j + j*(7-j),j,win));
         Figuren.push_back(new Dragon(1,j + j*(7-j),j,win));
@@ -108,21 +115,15 @@ int main(int, char**) {
         Figuren.push_back(new Light_Cav(3,j + j*(7-j),j,win));
         Figuren.push_back(new Elephant(4,j + j*(7-j),j,win));
     }
-    //Dragon Dragon_White(4,1,0,win);
-    //King King_White(4,2,0,win);
     while (true){
-        Brett.aktualisieren();
-        //Dragon_White.aktualisieren();
-        //King_White.aktualisieren();
-        for (int i = 0; i < int(Figuren.size()); i++) {
-         Figuren[i]->aktualisieren();
+        while( SDL_PollEvent( &Event ) != 0 ) {
+            Brett.getinput(Event);
+            Brett.aktualisieren();
+            for (int i = 0; i < int(Figuren.size()); i++) {
+             Figuren[i]->aktualisieren();
+            }
+            SDL_UpdateWindowSurface(win);
         }
-        // SDL_PumpEvents();
-        // if (SDL_GetMouseState(NULL, NULL) || SDL_BUTTON(SDL_BUTTON_LEFT)) {
-        //     std::cout << (SDL_BUTTON(SDL_BUTTON_LEFT));
-        //     //SDL_Log("Mouse Button 1 (left) is pressed.");
-        // }
-        SDL_UpdateWindowSurface(win);
     }
     SDL_Delay(100000);
     return 1;
