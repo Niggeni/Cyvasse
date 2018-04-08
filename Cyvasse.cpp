@@ -29,6 +29,7 @@ class Figur{
         void aktualisieren();
         void bewegen(int,int);
         bool aufFeld(int,int);
+        bool zugErlaubt(int,int);
         //void bewegen(int,int);
 };
 
@@ -164,6 +165,9 @@ bool Figur::aufFeld(int xpos, int ypos){
     }else{
         return false;
     }
+}
+bool Figur::zugErlaubt(int xpos,int ypos){
+    return true;
 }
 int main(int, char**) {
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
