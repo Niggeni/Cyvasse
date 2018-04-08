@@ -16,8 +16,6 @@ class Figur{
         SDL_Rect Rect;
         SDL_Rect source;
         SDL_Rect dest;
-        int x;
-        int y;
         int Feld_x;
         int Feld_y;
         int Team;
@@ -104,10 +102,10 @@ void Spielfeld::getinput(SDL_Event e){
         int Maus_y = e.button.y;
         int Feld_x = (Maus_x-448)/128;
         int Feld_y = (Maus_y-28)/128;
-        //std::cout << "("<< Feld_x << " , "<< Feld_y << ")"<< '\n';
+        std::cout << "("<< Maus_x << " , "<< Maus_y << ")"<< '\n';
         for (int i = 0; i < int(Figuren.size()); i++) {
             if(Figuren[i]->Auswahl){
-                if (!(Figuren[i]->aufFeld(Feld_x,Feld_y))){
+                if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
                     Figuren[i]->bewegen(Feld_x,Feld_y);
                     schlagen(Feld_x,Feld_y,i);
                 }
@@ -137,8 +135,6 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     Auswahl = false;
     Feld_x = xpos;
     Feld_y = ypos;
-    x = Feld_x*128;
-    y = Feld_y*128;
     Team = Teamvar;
     source = {x: Typ, y: Team, w:128, h:128};
     Pieces = IMG_Load("Sources/Pieces/Pieces.png");
@@ -146,7 +142,7 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
 }
 void Figur::aktualisieren(){
-    Rect = {x:x+448,y:y+28,w:128,h:128};
+    Rect = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
     source = {x: 128*Typ, y: 128*Team, w:128, h:128};
     SDL_BlitSurface(Pieces,&source,surf,&Rect);
     if (Auswahl){
@@ -156,8 +152,6 @@ void Figur::aktualisieren(){
 void Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
-    x = xpos*128;
-    y = ypos*128;
     Auswahl = false;
 
 }
@@ -169,7 +163,12 @@ bool Figur::aufFeld(int xpos, int ypos){
     }
 }
 bool Figur::zugErlaubt(int xpos,int ypos){
-    return true;
+    if (xpos >=0 && xpos < 8&&ypos >=0 && ypos < 8&& !(aufFeld(xpos,ypos))){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 int main(int, char**) {
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
