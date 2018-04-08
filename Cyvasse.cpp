@@ -16,16 +16,15 @@ class Figur{
         SDL_Rect Rect;
         SDL_Rect source;
         SDL_Rect dest;
-    public:
         int x;
-        bool Auswahl;
         int y;
         int Feld_x;
         int Feld_y;
         int Team;
         int Typ;
+    public:
+        bool Auswahl;
         Figur(int,int,int,SDL_Window*);
-        ~Figur(){};
         void aktualisieren();
         void bewegen(int,int);
         bool aufFeld(int,int);
@@ -44,7 +43,7 @@ class Spielfeld{
         Spielfeld(SDL_Window*);
         void aktualisieren();
         void getinput(SDL_Event);
-        void setupmove(int,int,int);
+        void schlagen(int,int,int);
 };
 class King :public Figur{
 public:
@@ -94,6 +93,9 @@ Spielfeld::Spielfeld(SDL_Window *win){
 void Spielfeld::aktualisieren() {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
     SDL_BlitSurface(Feld,NULL,surf,NULL);
+    for (int i = 0; i < int(Figuren.size()); i++) {
+        Figuren[i]->aktualisieren();
+    }
 }
 void Spielfeld::getinput(SDL_Event e){
     if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -106,7 +108,7 @@ void Spielfeld::getinput(SDL_Event e){
             if(Figuren[i]->Auswahl){
                 if (!(Figuren[i]->aufFeld(Feld_x,Feld_y))){
                     Figuren[i]->bewegen(Feld_x,Feld_y);
-                    setupmove(Feld_x,Feld_y,i);
+                    schlagen(Feld_x,Feld_y,i);
                 }
                 Figuren[i]->Auswahl = false;
                 break;
@@ -118,7 +120,7 @@ void Spielfeld::getinput(SDL_Event e){
         }
     }
 }
-void Spielfeld::setupmove(int x,int y,int currfig){
+void Spielfeld::schlagen(int x,int y,int currfig){
     for (int i = 0; i < int(Figuren.size()); i++) {
         if (i==currfig){
             continue;
@@ -174,9 +176,6 @@ int main(int, char**) {
         while( SDL_PollEvent( &Event ) != 0 ) {
             Brett.getinput(Event);
             Brett.aktualisieren();
-            for (int i = 0; i < int(Brett.Figuren.size()); i++) {
-             Brett.Figuren[i]->aktualisieren();
-            }
             SDL_UpdateWindowSurface(win);
             //std::cout << Brett.Figuren.size() << '\n';
         }
