@@ -17,8 +17,8 @@ class Figur{
         int Team;
         int Typ;
         int Mobility;
-        int numMoves;
     public:
+        int numMoves;
         bool Auswahl;
         Figur(int,int,int,SDL_Window*);
         virtual ~Figur(){};
