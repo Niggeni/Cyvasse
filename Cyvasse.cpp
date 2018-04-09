@@ -50,6 +50,7 @@ public:
     King(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
         Typ = 0;
     };
+    virtual bool zugErlaubt(int,int);
 };
 class Dragon :public Figur{
     public:
@@ -63,18 +64,21 @@ class Heavy_Cav :public Figur{
         Heavy_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 2;
         };
+        virtual bool zugErlaubt(int,int);
 };
 class Light_Cav :public Figur{
     public:
         Light_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 3;
         };
+        virtual bool zugErlaubt(int,int);
 };
 class Elephant :public Figur{
     public:
         Elephant(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 4;
         };
+        virtual bool zugErlaubt(int,int);
 };
 
 Spielfeld::Spielfeld(SDL_Window *win){
@@ -150,12 +154,12 @@ void Figur::aktualisieren(){
     SDL_BlitSurface(Pieces,&source,surf,&Rect);
     if (Auswahl){
         SDL_BlitSurface(Auswahlpic,NULL,surf,&Rect);
-    }
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if(zugErlaubt(i,j)&&Auswahl){
-                erlaubteFelder = {x:i*128+448,y:j*128+28,w:128,h:128};
-                SDL_BlitSurface(Auswahlpic,NULL,surf,&erlaubteFelder);
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(zugErlaubt(i,j)){
+                    erlaubteFelder = {x:i*128+448,y:j*128+28,w:128,h:128};
+                    SDL_BlitSurface(Auswahlpic,NULL,surf,&erlaubteFelder);
+                }
             }
         }
     }
@@ -164,7 +168,6 @@ void Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
     Auswahl = false;
-
 }
 bool Figur::aufFeld(int xpos, int ypos){
     if (xpos == Feld_x && ypos == Feld_y){
@@ -182,9 +185,36 @@ bool Figur::zugErlaubt(int xpos,int ypos){
     }
 }
 bool Dragon::zugErlaubt(int xpos, int ypos){
-    bool erlaubt;
-    // = Figur::zugErlaubt(xpos,ypos);
+    bool erlaubt=false;
     if (xpos == Feld_x || ypos == Feld_y || abs(xpos-Feld_x) == abs(ypos - Feld_y)){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool King::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Heavy_Cav::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=2 && abs(ypos - Feld_y)<=2){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Light_Cav::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=3 && abs(ypos - Feld_y)<=3){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Elephant::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
         erlaubt = true;
     }
     return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
@@ -194,10 +224,13 @@ int main(int, char**) {
     Spielfeld Brett(win);
     SDL_Event Event;
     //vector<Figur*> *Figuren = &(Brett.Figuren.begin());
+    Heavy_Cav beaut(3,3,1,win);
+    beaut.Auswahl = true;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             Brett.getinput(Event);
             Brett.aktualisieren();
+            //beaut.aktualisieren();
             SDL_UpdateWindowSurface(win);
             //std::cout << Brett.Figuren.size() << '\n';
         }
