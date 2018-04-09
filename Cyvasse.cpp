@@ -23,10 +23,11 @@ class Figur{
     public:
         bool Auswahl;
         Figur(int,int,int,SDL_Window*);
+        virtual ~Figur(){};
         void aktualisieren();
         void bewegen(int,int);
         bool aufFeld(int,int);
-        bool zugErlaubt(int,int);
+        virtual bool zugErlaubt(int,int);
         //void bewegen(int,int);
 };
 
@@ -55,6 +56,7 @@ class Dragon :public Figur{
         Dragon(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 1;
         };
+        virtual bool zugErlaubt(int,int);
 };
 class Heavy_Cav :public Figur{
     public:
@@ -102,7 +104,7 @@ void Spielfeld::getinput(SDL_Event e){
         int Maus_y = e.button.y;
         int Feld_x = (Maus_x-448)/128;
         int Feld_y = (Maus_y-28)/128;
-        std::cout << "("<< Maus_x << " , "<< Maus_y << ")"<< '\n';
+        //std::cout << "("<< Maus_x << " , "<< Maus_y << ")"<< '\n';
         for (int i = 0; i < int(Figuren.size()); i++) {
             if(Figuren[i]->Auswahl){
                 if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
@@ -143,10 +145,19 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
 }
 void Figur::aktualisieren(){
     Rect = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
+    SDL_Rect erlaubteFelder;
     source = {x: 128*Typ, y: 128*Team, w:128, h:128};
     SDL_BlitSurface(Pieces,&source,surf,&Rect);
     if (Auswahl){
         SDL_BlitSurface(Auswahlpic,NULL,surf,&Rect);
+    }
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if(zugErlaubt(i,j)&&Auswahl){
+                erlaubteFelder = {x:i*128+448,y:j*128+28,w:128,h:128};
+                SDL_BlitSurface(Auswahlpic,NULL,surf,&erlaubteFelder);
+            }
+        }
     }
 }
 void Figur::bewegen(int xpos, int ypos){
@@ -169,6 +180,14 @@ bool Figur::zugErlaubt(int xpos,int ypos){
     else{
         return false;
     }
+}
+bool Dragon::zugErlaubt(int xpos, int ypos){
+    bool erlaubt;
+    // = Figur::zugErlaubt(xpos,ypos);
+    if (xpos == Feld_x || ypos == Feld_y || abs(xpos-Feld_x) == abs(ypos - Feld_y)){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
 }
 int main(int, char**) {
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
