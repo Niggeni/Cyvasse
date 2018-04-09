@@ -16,6 +16,8 @@ class Figur{
         int Feld_y;
         int Team;
         int Typ;
+        int Mobility;
+        int numMoves;
     public:
         bool Auswahl;
         Figur(int,int,int,SDL_Window*);
@@ -32,6 +34,8 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     Feld_x = xpos;
     Feld_y = ypos;
     Team = Teamvar;
+    Mobility = 1;
+    numMoves = 0;
     source = {x: Typ, y: Team, w:128, h:128};
     Pieces = IMG_Load("Sources/Pieces/Pieces.png");
     Auswahlpic = IMG_Load("Sources/Auswahl.png");
@@ -73,6 +77,7 @@ class Heavy_Cav :public Figur{
     public:
         Heavy_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 2;
+            Mobility = 2;
         };
         virtual bool zugErlaubt(int,int);
 };
@@ -80,6 +85,7 @@ class Light_Cav :public Figur{
     public:
         Light_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 3;
+            Mobility = 3;
         };
         virtual bool zugErlaubt(int,int);
 };
@@ -94,7 +100,11 @@ class Elephant :public Figur{
 void Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
-    Auswahl = false;
+    numMoves++;
+    if (numMoves >= Mobility){
+        Auswahl = false;
+        numMoves = 0;
+    }
 }
 bool Figur::aufFeld(int xpos, int ypos){
     if (xpos == Feld_x && ypos == Feld_y){
@@ -127,14 +137,14 @@ bool King::zugErlaubt(int xpos, int ypos){
 }
 bool Heavy_Cav::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
-    if (abs(xpos-Feld_x) <=2 && abs(ypos - Feld_y)<=2){
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
         erlaubt = true;
     }
     return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
 }
 bool Light_Cav::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
-    if (abs(xpos-Feld_x) <=3 && abs(ypos - Feld_y)<=3){
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
         erlaubt = true;
     }
     return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);

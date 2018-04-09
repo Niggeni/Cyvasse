@@ -59,7 +59,7 @@ void Spielfeld::getinput(SDL_Event e){
                     Figuren[i]->bewegen(Feld_x,Feld_y);
                     schlagen(Feld_x,Feld_y,i);
                 }
-                Figuren[i]->Auswahl = false;
+                //Figuren[i]->Auswahl = false;
                 break;
             }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
                 Figuren[i]->Auswahl = true;
