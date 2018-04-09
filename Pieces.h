@@ -8,6 +8,7 @@ class Figur{
         SDL_Surface *surf;
         SDL_Surface *Pieces;
         SDL_Surface *Auswahlpic;
+        SDL_Surface *Erlaubtpic;
         SDL_Rect Rect;
         SDL_Rect source;
         SDL_Rect dest;
@@ -34,6 +35,7 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     source = {x: Typ, y: Team, w:128, h:128};
     Pieces = IMG_Load("Sources/Pieces/Pieces.png");
     Auswahlpic = IMG_Load("Sources/Auswahl.png");
+    Erlaubtpic = IMG_Load("Sources/erlaubt.png");
     surf = SDL_GetWindowSurface(win);
 }
 void Figur::aktualisieren(){
@@ -47,7 +49,7 @@ void Figur::aktualisieren(){
             for (int j = 0; j < 8; j++) {
                 if(zugErlaubt(i,j)){
                     erlaubteFelder = {x:i*128+448,y:j*128+28,w:128,h:128};
-                    SDL_BlitSurface(Auswahlpic,NULL,surf,&erlaubteFelder);
+                    SDL_BlitSurface(Erlaubtpic,NULL,surf,&erlaubteFelder);
                 }
             }
         }

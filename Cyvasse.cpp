@@ -21,7 +21,7 @@ int main(int, char**) {
             Brett.aktualisieren();
             SDL_UpdateWindowSurface(win);
         }
-    }
+    } 
     SDL_Delay(100000);
     return 1;
 
