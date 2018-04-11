@@ -1,4 +1,4 @@
-// This is start of the header guard.  ADD_H can be any unique name.  By convention, we use the name of the header file.
+
 #ifndef PIECES_H
 #define PIECES_H
 
@@ -11,7 +11,6 @@ class Figur{
         SDL_Surface *Erlaubtpic;
         SDL_Rect Rect;
         SDL_Rect source;
-        SDL_Rect dest;
         int Feld_x;
         int Feld_y;
         int Team;

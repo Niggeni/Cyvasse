@@ -8,17 +8,20 @@
 #include <math.h>
 //#include "Pieces.h"
 #include "Spielfeld.h"
+#include "Felder.h"
 using namespace std;
 
 
 int main(int, char**) {
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
     Spielfeld Brett(win);
+    Berg ME(2,2,win);
     SDL_Event Event;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             Brett.getinput(Event);
             Brett.aktualisieren();
+            ME.aktualisieren();
             SDL_UpdateWindowSurface(win);
         }
     }
@@ -26,4 +29,3 @@ int main(int, char**) {
     return 1;
 
 }
- 
