@@ -22,10 +22,10 @@ int main(int, char**) {
             Brett.getinput(Event);
             Brett.aktualisieren();
             ME.aktualisieren();
-            SDL_UpdateWindowSurface(win); 
+            SDL_UpdateWindowSurface(win);
         }
     }
     SDL_Delay(100000);
     return 1;
-
+ 
 }
