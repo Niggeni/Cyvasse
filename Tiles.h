@@ -1,5 +1,5 @@
-#ifndef FELDER_H
-#define FELDER_H
+#ifndef TILES_H
+#define TILES_H
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>

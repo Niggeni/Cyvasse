@@ -8,7 +8,7 @@
 #include <math.h>
 //#include "Pieces.h"
 #include "Spielfeld.h"
-#include "Felder.h"
+#include "Tiles.h"
 using namespace std;
 
 
@@ -22,7 +22,7 @@ int main(int, char**) {
             Brett.getinput(Event);
             Brett.aktualisieren();
             ME.aktualisieren();
-            SDL_UpdateWindowSurface(win);
+            SDL_UpdateWindowSurface(win); 
         }
     }
     SDL_Delay(100000);

@@ -9,26 +9,29 @@
 #include <map>
 #include <math.h>
 #include "Pieces.h"
+#include "Tiles.h"
 //#include "Felder.h"
 using namespace std;
 class Spielfeld{
     private:
         SDL_Surface *surf;
-        SDL_Surface *Feld;
+        SDL_Surface *Feldimage;
         SDL_Surface *Back;
         SDL_Rect source;
         SDL_Rect dest;
     public:
         vector<Figur*> Figuren;
+        vector<Feld*> Felder;
         Spielfeld(SDL_Window*);
         void aktualisieren();
         void getinput(SDL_Event);
         void schlagen(int,int,int);
+        //void aufbauen();
 };
 Spielfeld::Spielfeld(SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
     dest =  {x:448,y:28,w:1920,h:1080};
-    Feld = IMG_Load("Sources/Board.png");
+    Feldimage = IMG_Load("Sources/Board.png");
     Back = IMG_Load("Sources/Back.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
     for (int j = 0;j<2;j++){
@@ -41,7 +44,7 @@ Spielfeld::Spielfeld(SDL_Window *win){
 }
 void Spielfeld::aktualisieren() {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
-    SDL_BlitSurface(Feld,NULL,surf,NULL);
+    SDL_BlitSurface(Feldimage,NULL,surf,NULL);
     for (int i = 0; i < int(Figuren.size()); i++) {
         Figuren[i]->aktualisieren();
     }
