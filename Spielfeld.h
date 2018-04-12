@@ -1,4 +1,3 @@
-// This is start of the header guard.  ADD_H can be any unique name.  By convention, we use the name of the header file.
 #ifndef SPIELFELD_H
 #define SPIELFELD_H
 #include <SDL.h>
@@ -10,6 +9,7 @@
 #include <map>
 #include <math.h>
 #include "Pieces.h"
+//#include "Felder.h"
 using namespace std;
 class Spielfeld{
     private:
