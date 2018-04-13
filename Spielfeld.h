@@ -31,7 +31,9 @@ class Spielfeld{
         void getinput(SDL_Event);
         void schlagen(int,int,int);
         void figurinteract(int,int);
+        void feldinteract(int,int);
         void aufbauen(int);
+        void aufbauanzeige();
 };
 Spielfeld::Spielfeld(SDL_Window *winvar){
     win = winvar;
@@ -68,10 +70,28 @@ void Spielfeld::aktualisieren() {
     }
 }
 void Spielfeld::aufbauen(int Playervar){
-    int nMountains = 6;
-    int nWater = 5;
-    int nForest = 6;
-    int nFortress = 1;
+    // int nBerg = 6;
+    // int nWasser = 5;
+    // int nWald = 6;
+    // int nFestung = 1;
+
+    Berg Preview_Berg(win);
+    Wasser Preview_Wasser(win);
+    Wald Preview_Wald(win);
+    Festung Preview_Festung(win);
+    SDL_Event Event;
+    while (true){
+        while( SDL_PollEvent( &Event ) != 0 ) {
+            aktualisieren();
+            Preview_Berg.aktualisieren(-2,0);
+            Preview_Wasser.aktualisieren(-2,1);
+            Preview_Wald.aktualisieren(-2,2);
+            Preview_Festung.aktualisieren(-2,3);
+            SDL_UpdateWindowSurface(win);
+        }
+
+    }
+
     Player = Playervar;
     // Figuren.push_back(new King(0,Player + Player*(7-Player),Player,win));
     // Figuren.push_back(new Dragon(1,Player + Player*(7-Player),Player,win));
@@ -98,6 +118,15 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
 
     }
 }
+void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
+
+    if(Feld_x == -2){
+        Select = Feld_y;
+    }
+    // if (!(Select==-1)){
+    //
+    // }
+}
 void Spielfeld::getinput(SDL_Event e){
     if (e.type == SDL_MOUSEBUTTONDOWN) {
         int Maus_x = e.button.x;
@@ -119,5 +148,8 @@ void Spielfeld::schlagen(int x,int y,int currfig){
             //std::cout << Figuren.size() << '\n';
         }
     }
+}
+void Spielfeld::aufbauanzeige(){
+
 }
 #endif

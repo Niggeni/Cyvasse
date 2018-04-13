@@ -16,6 +16,7 @@ class Feld{
         SDL_Rect source;
     public:
         int Typ;
+        bool Auswahl;
         Feld(SDL_Window*);
         void aktualisieren(int,int);
 };
