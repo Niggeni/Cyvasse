@@ -30,6 +30,7 @@ class Spielfeld{
         void aktualisieren();
         void getinput(SDL_Event);
         void schlagen(int,int,int);
+        void figurinteract(int,int);
         void aufbauen(int);
 };
 Spielfeld::Spielfeld(SDL_Window *winvar){
@@ -40,7 +41,7 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
     Back = IMG_Load("Sources/Back.png");
     Vorhang = IMG_Load("Sources/Landschaft/Vorhang.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
-    Phase = 2;
+    Phase = 0;
     vector <Feld*> Tilessetup;
     Grass *Grasstile = new Grass(win);
     for (int i = 0; i < 8; i++) {
@@ -67,19 +68,35 @@ void Spielfeld::aktualisieren() {
     }
 }
 void Spielfeld::aufbauen(int Playervar){
-    // int nMountains = 6;
-    // int nWater = 5;
-    // int nForest = 6;
-    // int nFortress = 1;
+    int nMountains = 6;
+    int nWater = 5;
+    int nForest = 6;
+    int nFortress = 1;
     Player = Playervar;
-    Figuren.push_back(new King(0,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Dragon(1,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Heavy_Cav(2,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Light_Cav(3,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Elephant(4,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Rabble(5,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Spearmen(6,Player + Player*(7-Player),Player,win));
-    Figuren.push_back(new Crossbowmen(7,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new King(0,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Dragon(1,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Heavy_Cav(2,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Light_Cav(3,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Elephant(4,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Rabble(5,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Spearmen(6,Player + Player*(7-Player),Player,win));
+    // Figuren.push_back(new Crossbowmen(7,Player + Player*(7-Player),Player,win));
+}
+void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
+    for (int i = 0; i < int(Figuren.size()); i++) {
+        if(Figuren[i]->Auswahl){
+            if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
+                Figuren[i]->bewegen(Feld_x,Feld_y);
+                schlagen(Feld_x,Feld_y,i);
+            }else if (Figuren[i]->numMoves == 0){
+                Figuren[i]->Auswahl = false;
+            }
+        }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
+            Figuren[i]->Auswahl = true;
+            //std::cout << "test" << '\n';
+        }
+
+    }
 }
 void Spielfeld::getinput(SDL_Event e){
     if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -87,21 +104,8 @@ void Spielfeld::getinput(SDL_Event e){
         int Maus_y = e.button.y;
         int Feld_x = (Maus_x-448)/128;
         int Feld_y = (Maus_y-28)/128;
-        //std::cout << "("<< Maus_x << " , "<< Maus_y << ")"<< '\n';
-        for (int i = 0; i < int(Figuren.size()); i++) {
-            if(Figuren[i]->Auswahl){
-                if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
-                    Figuren[i]->bewegen(Feld_x,Feld_y);
-                    schlagen(Feld_x,Feld_y,i);
-                }else if (Figuren[i]->numMoves == 0){
-                    Figuren[i]->Auswahl = false;
-                }
-            }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
-                Figuren[i]->Auswahl = true;
-                //std::cout << "test" << '\n';
-            }
+        figurinteract(Feld_x,Feld_y);
 
-        }
     }
 }
 void Spielfeld::schlagen(int x,int y,int currfig){

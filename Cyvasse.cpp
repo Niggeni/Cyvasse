@@ -17,8 +17,6 @@ int main(int, char**) {
     //Berg ME(win);
     SDL_Event Event;
     Brett.aufbauen(0);
-    //Rabble test(2,2,1,win);
-    //test.aktualisieren();
     Brett.aufbauen(1);
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
