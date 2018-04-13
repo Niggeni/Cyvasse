@@ -40,9 +40,15 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
     Back = IMG_Load("Sources/Back.png");
     Vorhang = IMG_Load("Sources/Landschaft/Vorhang.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
-    Phase = 0;
-
-
+    Phase = 2;
+    vector <Feld*> Tilessetup;
+    Grass *Grasstile = new Grass(win);
+    for (int i = 0; i < 8; i++) {
+        Tilessetup.push_back(Grasstile);
+    }
+    for (int i = 0; i < 8; i++) {
+        Felder.push_back(Tilessetup);
+    }
 }
 void Spielfeld::aktualisieren() {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
@@ -61,19 +67,19 @@ void Spielfeld::aktualisieren() {
     }
 }
 void Spielfeld::aufbauen(int Playervar){
-    int nMountains = 6;
-    int nWater = 5;
-    int nForest = 6;
-    int nFortress = 1;
+    // int nMountains = 6;
+    // int nWater = 5;
+    // int nForest = 6;
+    // int nFortress = 1;
     Player = Playervar;
-    vector <Feld*> Tilessetup;
-    Grass *Grasstile = new Grass(win);
-    for (int i = 0; i < 8; i++) {
-        Tilessetup.push_back(Grasstile);
-    }
-    for (int i = 0; i < 8; i++) {
-        Felder.push_back(Tilessetup);
-    }
+    Figuren.push_back(new King(0,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Dragon(1,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Heavy_Cav(2,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Light_Cav(3,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Elephant(4,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Rabble(5,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Spearmen(6,Player + Player*(7-Player),Player,win));
+    Figuren.push_back(new Crossbowmen(7,Player + Player*(7-Player),Player,win));
 }
 void Spielfeld::getinput(SDL_Event e){
     if (e.type == SDL_MOUSEBUTTONDOWN) {

@@ -95,6 +95,28 @@ class Elephant :public Figur{
         };
         virtual bool zugErlaubt(int,int);
 };
+class Rabble :public Figur{
+    public:
+        Rabble(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 5;
+        };
+        virtual bool zugErlaubt(int,int);
+};
+class Spearmen :public Figur{
+    public:
+        Spearmen(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 6;
+        };
+        virtual bool zugErlaubt(int,int);
+};
+class Crossbowmen :public Figur{
+    public:
+        Crossbowmen(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 7;
+        };
+        virtual bool zugErlaubt(int,int);
+};
+
 
 void Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
@@ -149,6 +171,27 @@ bool Light_Cav::zugErlaubt(int xpos, int ypos){
     return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
 }
 bool Elephant::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Rabble::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Spearmen::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Crossbowmen::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
     if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
         erlaubt = true;
