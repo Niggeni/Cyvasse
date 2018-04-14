@@ -75,18 +75,19 @@ void Spielfeld::aufbauen(int Playervar){
     // int nWald = 6;
     // int nFestung = 1;
 
-    Berg Preview_Berg(win);
-    Wasser Preview_Wasser(win);
-    Wald Preview_Wald(win);
-    Festung Preview_Festung(win);
+    vector<Feld*> Anzeigetiles;
+    Anzeigetiles.push_back(new Berg(win));
+    Anzeigetiles.push_back(new Wasser(win));
+    Anzeigetiles.push_back(new Wald(win));
+    Anzeigetiles.push_back(new Festung(win));
+
     SDL_Event Event;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             aktualisieren();
-            Preview_Berg.aktualisieren(-2,0);
-            Preview_Wasser.aktualisieren(-2,1);
-            Preview_Wald.aktualisieren(-2,2);
-            Preview_Festung.aktualisieren(-2,3);
+            for (int i = 0; i < int(Anzeigetiles.size()); i++) {
+                Anzeigetiles[i]->aktualisieren(-2,i);
+            }
             SDL_UpdateWindowSurface(win);
         }
 
@@ -119,7 +120,7 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
     }
 }
 void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
-
+    int Select = -1;
     if(Feld_x == -2){
         Select = Feld_y;
     }

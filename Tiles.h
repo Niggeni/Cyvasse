@@ -13,6 +13,7 @@ class Feld{
     protected:
         SDL_Surface *surf;
         SDL_Surface *Tiles;
+        SDL_Surface *Auswahlpic;
         SDL_Rect source;
     public:
         int Typ;
@@ -23,10 +24,15 @@ class Feld{
 Feld::Feld(SDL_Window *win){
     surf = SDL_GetWindowSurface(win);
     Tiles = IMG_Load("Sources/Landschaft/Landschaft.png");
+    Auswahl = false;
+    Auswahlpic = IMG_Load("Sources/Auswahl.png");
 }
 void Feld::aktualisieren(int Feld_x, int Feld_y){
     SDL_Rect dest = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
     SDL_BlitSurface(Tiles,&source,surf,&dest);
+    if (Auswahl){
+        SDL_BlitSurface(Auswahlpic,NULL,surf,&dest);
+    }
 }
 
 class Berg :public Feld{
