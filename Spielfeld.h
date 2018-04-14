@@ -26,9 +26,10 @@ class Spielfeld{
     public:
         vector<Figur*> Figuren;
         vector<vector<Feld*>> Felder;
+        vector<Feld*> Anzeigetiles;
         Spielfeld(SDL_Window*);
         void aktualisieren();
-        void getinput(SDL_Event);
+        int * getinput(SDL_Event);
         void schlagen(int,int,int);
         void figurinteract(int,int);
         void feldinteract(int,int);
@@ -75,16 +76,17 @@ void Spielfeld::aufbauen(int Playervar){
     // int nWald = 6;
     // int nFestung = 1;
 
-    vector<Feld*> Anzeigetiles;
     Anzeigetiles.push_back(new Berg(win));
     Anzeigetiles.push_back(new Wasser(win));
     Anzeigetiles.push_back(new Wald(win));
     Anzeigetiles.push_back(new Festung(win));
+    //Anzeigetiles.push_back(Anzeigetiles[1]->clone());
 
     SDL_Event Event;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             aktualisieren();
+            getinput(Event);
             for (int i = 0; i < int(Anzeigetiles.size()); i++) {
                 Anzeigetiles[i]->aktualisieren(-2,i);
             }
@@ -124,19 +126,38 @@ void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
     if(Feld_x == -2){
         Select = Feld_y;
     }
-    // if (!(Select==-1)){
-    //
-    // }
+    if (Select >=0 && Select <4){
+        for (int i = 0; i < int(Anzeigetiles.size()); i++) {
+            if(i==Select){
+                continue;
+            }
+            Anzeigetiles[i]->Auswahl = false;
+        }
+        Anzeigetiles[Select]->Auswahl = ! Anzeigetiles[Select]->Auswahl;
+    }
+    else if (Feld_x>=0&& Feld_x < 8 && Feld_y>=0&& Feld_y < 8){
+        for (int i = 0; i < int(Anzeigetiles.size()); i++) {
+            if(Anzeigetiles[i]->Auswahl){
+                Felder[Feld_x][Feld_y] = Anzeigetiles[i]->clone();
+            }
+        }
+    }
 }
-void Spielfeld::getinput(SDL_Event e){
+int * Spielfeld::getinput(SDL_Event e){
+    static int Input[3] = {0};
+
     if (e.type == SDL_MOUSEBUTTONDOWN) {
         int Maus_x = e.button.x;
         int Maus_y = e.button.y;
-        int Feld_x = (Maus_x-448)/128;
+        int Feld_x = (Maus_x-64)/128 -3; //offset
         int Feld_y = (Maus_y-28)/128;
         figurinteract(Feld_x,Feld_y);
-
+        feldinteract(Feld_x,Feld_y);
+        Input[0] = 1;
+        Input[1] = Feld_x;
+        Input[2] = Feld_y;
     }
+    return Input; //noch nicht benutzt
 }
 void Spielfeld::schlagen(int x,int y,int currfig){
     for (int i = 0; i < int(Figuren.size()); i++) {

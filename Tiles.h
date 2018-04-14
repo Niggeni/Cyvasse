@@ -14,14 +14,17 @@ class Feld{
         SDL_Surface *surf;
         SDL_Surface *Tiles;
         SDL_Surface *Auswahlpic;
+        SDL_Window *win;
         SDL_Rect source;
     public:
         int Typ;
         bool Auswahl;
         Feld(SDL_Window*);
         void aktualisieren(int,int);
+        virtual Feld * clone() { return new Feld(win); };
 };
-Feld::Feld(SDL_Window *win){
+Feld::Feld(SDL_Window *winvar){
+    win = winvar;
     surf = SDL_GetWindowSurface(win);
     Tiles = IMG_Load("Sources/Landschaft/Landschaft.png");
     Auswahl = false;
@@ -41,6 +44,7 @@ public:
         Typ = 0;
         source = {x:Typ*128,y:0,w:128,h:128};
     };
+    virtual Berg * clone() { return new Berg(win); };
 };
 class Wasser :public Feld{
 public:
@@ -48,6 +52,7 @@ public:
         Typ = 1;
         source = {x:Typ*128,y:0,w:128,h:128};
     };
+    virtual Wasser * clone() { return new Wasser(win); };
 };
 class Wald :public Feld{
 public:
@@ -55,6 +60,7 @@ public:
         Typ = 2;
         source = {x:Typ*128,y:0,w:128,h:128};
     };
+    virtual Wald * clone() { return new Wald(win); };
 };
 class Grass :public Feld{
 public:
@@ -62,6 +68,7 @@ public:
         Typ = 3;
         source = {x:Typ*128,y:0,w:128,h:128};
     };
+    virtual Grass * clone() { return new Grass(win); };
 };
 class Festung :public Feld{
 public:
@@ -69,6 +76,7 @@ public:
         Typ = 4;
         source = {x:Typ*128,y:0,w:128,h:128};
     };
+    virtual Festung * clone() { return new Festung(win); };
 };
 
 #endif

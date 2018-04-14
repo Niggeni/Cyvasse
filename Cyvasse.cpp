@@ -21,7 +21,7 @@ int main(int, char**) {
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             Brett.getinput(Event);
-            //Brett.aktualisieren();
+            Brett.aktualisieren();
         //    ME.aktualisieren(2,3);
             SDL_UpdateWindowSurface(win);
         }
@@ -29,4 +29,5 @@ int main(int, char**) {
     SDL_Delay(100000);
     return 1;
 }
+
  
