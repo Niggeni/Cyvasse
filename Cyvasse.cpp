@@ -18,6 +18,7 @@ int main(int, char**) {
     SDL_Event Event;
     Brett.aufbauen(0);
     Brett.aufbauen(1);
+    Brett.Phase = 1;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             Brett.getinput(Event);
@@ -29,4 +30,3 @@ int main(int, char**) {
     SDL_Delay(100000);
     return 1;
 }
- 

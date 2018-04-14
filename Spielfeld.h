@@ -14,8 +14,11 @@ class Spielfeld{
         SDL_Rect source;
         SDL_Rect dest;
         int Player;
+        bool Zugbeendet;
     public:
+        int Phase;
         vector<Figur*> Figuren;
+        vector<Figur*> Anzeigefiguren;
         vector<vector<Feld*>> Felder;
         vector<Feld*> Anzeigetiles;
         Spielfeld(SDL_Window*);
@@ -29,6 +32,7 @@ class Spielfeld{
 };
 Spielfeld::Spielfeld(SDL_Window *winvar){
     win = winvar;
+    Zugbeendet = false;
     surf = SDL_GetWindowSurface(win);
     dest =  {x:448,y:28,w:1920,h:1080};
     Feldimage = IMG_Load("Sources/Board.png");
@@ -54,6 +58,9 @@ void Spielfeld::aktualisieren() {
     SDL_BlitSurface(Feldimage,NULL,surf,NULL);
     for (int i = 0; i < int(Figuren.size()); i++) {
         Figuren[i]->aktualisieren();
+        if(Phase != 0){
+            Figuren[i]->legalanzeigen();
+        }
     }
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -64,48 +71,76 @@ void Spielfeld::aktualisieren() {
 }
 void Spielfeld::aufbauen(int Playervar){
     Player = Playervar;
+    Phase = 0;
+    Zugbeendet = false;
     // int nBerg = 6;
     // int nWasser = 5;
     // int nWald = 6;
     // int nFestung = 1;
-
+    Anzeigefiguren.clear();
+     Figuren.push_back(new King(-3,0,Player,win));
+     Figuren.push_back(new Dragon(-3,1,Player,win));
+     Figuren.push_back(new Heavy_Cav(-3,2,Player,win));
+     Figuren.push_back(new Light_Cav(-3,3,Player,win));
+     Figuren.push_back(new Elephant(-3,4,Player,win));
+     Figuren.push_back(new Rabble(-3,5,Player,win));
+     Figuren.push_back(new Spearmen(-3,6,Player,win));
+     Figuren.push_back(new Crossbowmen(-3,7,Player,win));
 
 
     SDL_Event Event;
-    while (true){
+    while (!Zugbeendet){
+        // std::cout << Zugbeendet << '\n';
         while( SDL_PollEvent( &Event ) != 0 ) {
-            aktualisieren();
+            //cout<<Event.type<< " "<<SDLK_RETURN2<<endl;
+            //aktualisieren();
             getinput(Event);
             aufbauanzeige(Player);
             SDL_UpdateWindowSurface(win);
+            if(Event.key.keysym.sym == SDLK_RETURN&&Event.key.repeat == 0){
+                std::cout << "as" << '\n';
+                Zugbeendet = true;
+                //SDL_FlushEvent(SDL_KEYDOWN);
+                //Event.key.keysym.sym = SDLK_0;
+                //SDL_Delay(1000);
+                //break;
+                //std::cout << "/* message */" << '\n';
+            }
         }
 
 
     }
-
-    // Figuren.push_back(new King(0,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Dragon(1,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Heavy_Cav(2,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Light_Cav(3,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Elephant(4,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Rabble(5,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Spearmen(6,Player + Player*(7-Player),Player,win));
-    // Figuren.push_back(new Crossbowmen(7,Player + Player*(7-Player),Player,win));
 }
 void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
-    for (int i = 0; i < int(Figuren.size()); i++) {
-        if(Figuren[i]->Auswahl){
-            if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
-                Figuren[i]->bewegen(Feld_x,Feld_y);
-                schlagen(Feld_x,Feld_y,i);
-            }else if (Figuren[i]->numMoves == 0){
-                Figuren[i]->Auswahl = false;
+    if(Phase == 0){
+        for (int i = 0; i < int(Figuren.size()); i++) {
+            if(Figuren[i]->Auswahl){
+                if (Figuren[i]->platzierungErlaubt(Feld_x,Feld_y,Player)){
+                    Figuren[i]->platzieren(Feld_x,Feld_y);
+                    schlagen(Feld_x,Feld_y,i);
+                    Figuren[i]->Auswahl = false;
+                }
+            }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
+                Figuren[i]->Auswahl = true;
             }
-        }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
-            Figuren[i]->Auswahl = true;
-            //std::cout << "test" << '\n';
-        }
 
+        }
+    }
+    else{
+        for (int i = 0; i < int(Figuren.size()); i++) {
+            if(Figuren[i]->Auswahl){
+                if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
+                    Figuren[i]->bewegen(Feld_x,Feld_y);
+                    schlagen(Feld_x,Feld_y,i);
+                }else if (Figuren[i]->numMoves == 0){
+                    Figuren[i]->Auswahl = false;
+                }
+            }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
+                Figuren[i]->Auswahl = true;
+                //std::cout << "test" << '\n';
+            }
+
+        }
     }
 }
 void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
@@ -133,6 +168,7 @@ void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
         }
     }
 }
+
 int * Spielfeld::getinput(SDL_Event e){
     static int Input[3] = {0};
 

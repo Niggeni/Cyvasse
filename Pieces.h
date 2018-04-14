@@ -1,3 +1,4 @@
+
 #ifndef PIECES_H
 #define PIECES_H
 #include "IMG.h"
@@ -19,9 +20,12 @@ class Figur{
         Figur(int,int,int,SDL_Window*);
         virtual ~Figur(){};
         void aktualisieren();
+        void legalanzeigen();
         void bewegen(int,int);
+        void platzieren(int,int);
         bool aufFeld(int,int);
         virtual bool zugErlaubt(int,int);
+        bool platzierungErlaubt(int,int,int);
         //void bewegen(int,int);
 };
 
@@ -37,11 +41,15 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
 }
 void Figur::aktualisieren(){
     Rect = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
-    SDL_Rect erlaubteFelder;
     source = {x: 128*Typ, y: 128*Team, w:128, h:128};
     SDL_BlitSurface(Pieces,&source,surf,&Rect);
     if (Auswahl){
         SDL_BlitSurface(Auswahlpic,NULL,surf,&Rect);
+    }
+}
+void Figur::legalanzeigen(){
+    SDL_Rect erlaubteFelder;
+    if (Auswahl){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if(zugErlaubt(i,j)){
@@ -121,6 +129,10 @@ void Figur::bewegen(int xpos, int ypos){
         numMoves = 0;
     }
 }
+void Figur::platzieren(int xpos, int ypos){
+    Feld_x = xpos;
+    Feld_y = ypos;
+}
 bool Figur::aufFeld(int xpos, int ypos){
     if (xpos == Feld_x && ypos == Feld_y){
         return true;
@@ -130,6 +142,14 @@ bool Figur::aufFeld(int xpos, int ypos){
 }
 bool Figur::zugErlaubt(int xpos,int ypos){
     if (xpos >=0 && xpos < 8&&ypos >=0 && ypos < 8&& !(aufFeld(xpos,ypos))){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+bool Figur::platzierungErlaubt(int xpos,int ypos,int Player){
+    if (xpos >=0 && xpos < 8&&ypos >=4- 4*Player && ypos < 8-4*Player&& !(aufFeld(xpos,ypos))){
         return true;
     }
     else{
