@@ -1,14 +1,11 @@
-
 #ifndef PIECES_H
 #define PIECES_H
+#include "IMG.h"
 
-// This is the content of the .h file, which is where the declarations go
+
 class Figur{
     protected:
         SDL_Surface *surf;
-        SDL_Surface *Pieces;
-        SDL_Surface *Auswahlpic;
-        SDL_Surface *Erlaubtpic;
         SDL_Rect Rect;
         SDL_Rect source;
         int Feld_x;
@@ -36,9 +33,6 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     Mobility = 1;
     numMoves = 0;
     source = {x: Typ, y: Team, w:128, h:128};
-    Pieces = IMG_Load("Sources/Pieces/Pieces.png");
-    Auswahlpic = IMG_Load("Sources/Auswahl.png");
-    Erlaubtpic = IMG_Load("Sources/erlaubt.png");
     surf = SDL_GetWindowSurface(win);
 }
 void Figur::aktualisieren(){

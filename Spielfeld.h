@@ -1,17 +1,9 @@
 #ifndef SPIELFELD_H
 #define SPIELFELD_H
-#include <SDL.h>
-#include <SDL_image.h>
-#include <iostream>
-#include <stdlib.h>
-#include <time.h>
-#include <vector>
-#include <map>
-#include <math.h>
 #include "Pieces.h"
 #include "Tiles.h"
 //#include "Felder.h"
-using namespace std;
+//using namespace std;
 class Spielfeld{
     private:
         SDL_Surface *surf;
@@ -21,7 +13,6 @@ class Spielfeld{
         SDL_Window *win;
         SDL_Rect source;
         SDL_Rect dest;
-        int Phase;
         int Player;
     public:
         vector<Figur*> Figuren;
@@ -34,7 +25,7 @@ class Spielfeld{
         void figurinteract(int,int);
         void feldinteract(int,int);
         void aufbauen(int);
-        void aufbauanzeige();
+        void aufbauanzeige(int);
 };
 Spielfeld::Spielfeld(SDL_Window *winvar){
     win = winvar;
@@ -44,7 +35,6 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
     Back = IMG_Load("Sources/Back.png");
     Vorhang = IMG_Load("Sources/Landschaft/Vorhang.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
-    Phase = 0;
     vector <Feld*> Tilessetup;
     Grass *Grasstile = new Grass(win);
     for (int i = 0; i < 8; i++) {
@@ -53,6 +43,11 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
     for (int i = 0; i < 8; i++) {
         Felder.push_back(Tilessetup);
     }
+    Anzeigetiles.push_back(new Grass(win));
+    Anzeigetiles.push_back(new Berg(win));
+    Anzeigetiles.push_back(new Wasser(win));
+    Anzeigetiles.push_back(new Wald(win));
+    Anzeigetiles.push_back(new Festung(win));
 }
 void Spielfeld::aktualisieren() {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
@@ -65,37 +60,29 @@ void Spielfeld::aktualisieren() {
             Felder[i][j]->aktualisieren(i,j);
         }
     }
-    if(Phase<2){
-        SDL_Rect dest = {x:448,y:Player*(512+50)-50,w:620,h:1024};
-        SDL_BlitSurface(Vorhang,NULL,surf,&dest);
-    }
+
 }
 void Spielfeld::aufbauen(int Playervar){
+    Player = Playervar;
     // int nBerg = 6;
     // int nWasser = 5;
     // int nWald = 6;
     // int nFestung = 1;
 
-    Anzeigetiles.push_back(new Berg(win));
-    Anzeigetiles.push_back(new Wasser(win));
-    Anzeigetiles.push_back(new Wald(win));
-    Anzeigetiles.push_back(new Festung(win));
-    //Anzeigetiles.push_back(Anzeigetiles[1]->clone());
+
 
     SDL_Event Event;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
             aktualisieren();
             getinput(Event);
-            for (int i = 0; i < int(Anzeigetiles.size()); i++) {
-                Anzeigetiles[i]->aktualisieren(-2,i);
-            }
+            aufbauanzeige(Player);
             SDL_UpdateWindowSurface(win);
         }
 
+
     }
 
-    Player = Playervar;
     // Figuren.push_back(new King(0,Player + Player*(7-Player),Player,win));
     // Figuren.push_back(new Dragon(1,Player + Player*(7-Player),Player,win));
     // Figuren.push_back(new Heavy_Cav(2,Player + Player*(7-Player),Player,win));
@@ -126,7 +113,7 @@ void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
     if(Feld_x == -2){
         Select = Feld_y;
     }
-    if (Select >=0 && Select <4){
+    if (Select >=0 && Select <int(Anzeigetiles.size())){
         for (int i = 0; i < int(Anzeigetiles.size()); i++) {
             if(i==Select){
                 continue;
@@ -138,6 +125,9 @@ void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
     else if (Feld_x>=0&& Feld_x < 8 && Feld_y>=0&& Feld_y < 8){
         for (int i = 0; i < int(Anzeigetiles.size()); i++) {
             if(Anzeigetiles[i]->Auswahl){
+                //delete (Felder[Feld_x][Feld_y]);
+                //Felder.erase();
+                //std::cout << Felder.size() << '\n';
                 Felder[Feld_x][Feld_y] = Anzeigetiles[i]->clone();
             }
         }
@@ -171,7 +161,12 @@ void Spielfeld::schlagen(int x,int y,int currfig){
         }
     }
 }
-void Spielfeld::aufbauanzeige(){
-
+void Spielfeld::aufbauanzeige(int Player){
+    aktualisieren();
+    SDL_Rect dest = {x:448,y:Player*(512+50)-50,w:620,h:1024};
+    SDL_BlitSurface(Vorhang,NULL,surf,&dest);
+    for (int i = 0; i < int(Anzeigetiles.size()); i++) {
+        Anzeigetiles[i]->aktualisieren(-2,i);
+    }
 }
 #endif

@@ -1,34 +1,31 @@
 #ifndef TILES_H
 #define TILES_H
-#include <SDL.h>
-#include <SDL_image.h>
-#include <iostream>
-#include <stdlib.h>
-#include <time.h>
-#include <vector>
-#include <map>
-#include <math.h>
+
+#include"IMG.h"
 using namespace std;
+
+
+
 class Feld{
     protected:
         SDL_Surface *surf;
-        SDL_Surface *Tiles;
-        SDL_Surface *Auswahlpic;
+
         SDL_Window *win;
         SDL_Rect source;
     public:
         int Typ;
         bool Auswahl;
         Feld(SDL_Window*);
+        virtual ~Feld(){};
         void aktualisieren(int,int);
         virtual Feld * clone() { return new Feld(win); };
 };
 Feld::Feld(SDL_Window *winvar){
     win = winvar;
     surf = SDL_GetWindowSurface(win);
-    Tiles = IMG_Load("Sources/Landschaft/Landschaft.png");
+
     Auswahl = false;
-    Auswahlpic = IMG_Load("Sources/Auswahl.png");
+
 }
 void Feld::aktualisieren(int Feld_x, int Feld_y){
     SDL_Rect dest = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
