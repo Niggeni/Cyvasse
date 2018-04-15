@@ -2,7 +2,6 @@
 #define SPIELFELD_H
 #include "Pieces.h"
 #include "Tiles.h"
-//#include "Felder.h"
 //using namespace std;
 class Spielfeld{
     private:
@@ -10,6 +9,7 @@ class Spielfeld{
         SDL_Surface *Feldimage;
         SDL_Surface *Back;
         SDL_Surface *Vorhang;
+        SDL_Surface *Ende;
         SDL_Window *win;
         SDL_Rect source;
         SDL_Rect dest;
@@ -38,6 +38,7 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
     Feldimage = IMG_Load("Sources/Board.png");
     Back = IMG_Load("Sources/Back.png");
     Vorhang = IMG_Load("Sources/Landschaft/Vorhang.png");
+    Ende = IMG_Load("Sources/END.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
     vector <Feld*> Tilessetup;
     Grass *Grasstile = new Grass(win);
@@ -56,6 +57,8 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
 void Spielfeld::aktualisieren() {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
     SDL_BlitSurface(Feldimage,NULL,surf,NULL);
+    SDL_Rect Enddest = {x:1152+448,y:924,w:256,h:128};
+    SDL_BlitSurface(Ende,NULL,surf,&Enddest);
     for (int i = 0; i < int(Figuren.size()); i++) {
         Figuren[i]->aktualisieren();
         if(Phase != 0){
@@ -97,15 +100,6 @@ void Spielfeld::aufbauen(int Playervar){
             getinput(Event);
             aufbauanzeige(Player);
             SDL_UpdateWindowSurface(win);
-            if(Event.key.keysym.sym == SDLK_RETURN&&Event.key.repeat == 0){
-                std::cout << "as" << '\n';
-                Zugbeendet = true;
-                //SDL_FlushEvent(SDL_KEYDOWN);
-                //Event.key.keysym.sym = SDLK_0;
-                //SDL_Delay(1000);
-                //break;
-                //std::cout << "/* message */" << '\n';
-            }
         }
 
 
@@ -182,6 +176,10 @@ int * Spielfeld::getinput(SDL_Event e){
         Input[0] = 1;
         Input[1] = Feld_x;
         Input[2] = Feld_y;
+        //std::cout << Feld_x << " " << Feld_y<< '\n';
+        if(Feld_y == 7 && (Feld_x == 9 || Feld_x ==10)){
+            Zugbeendet = true;
+        }
     }
     return Input; //noch nicht benutzt
 }
