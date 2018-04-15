@@ -172,7 +172,9 @@ int * Spielfeld::getinput(SDL_Event e){
         int Feld_x = (Maus_x-64)/128 -3; //offset
         int Feld_y = (Maus_y-28)/128;
         figurinteract(Feld_x,Feld_y);
-        feldinteract(Feld_x,Feld_y);
+        if( Phase ==0){
+            feldinteract(Feld_x,Feld_y);
+        }
         Input[0] = 1;
         Input[1] = Feld_x;
         Input[2] = Feld_y;
