@@ -89,6 +89,8 @@ void Spielfeld::aufbauen(int Playervar){
      Figuren.push_back(new Rabble(-3,5,Player,win));
      Figuren.push_back(new Spearmen(-3,6,Player,win));
      Figuren.push_back(new Crossbowmen(-3,7,Player,win));
+     Figuren.push_back(new Catapult(-2,0,Player,win));
+     Figuren.push_back(new Trebuchet(-2,1,Player,win));
 
 
     SDL_Event Event;
@@ -139,7 +141,7 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
 }
 void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
     int Select = -1;
-    if(Feld_x == -2){
+    if(Feld_x == -1){
         Select = Feld_y;
     }
     if (Select >=0 && Select <int(Anzeigetiles.size())){
@@ -200,7 +202,7 @@ void Spielfeld::aufbauanzeige(int Player){
     SDL_Rect dest = {x:448,y:Player*(512+50)-50,w:620,h:1024};
     SDL_BlitSurface(Vorhang,NULL,surf,&dest);
     for (int i = 0; i < int(Anzeigetiles.size()); i++) {
-        Anzeigetiles[i]->aktualisieren(-2,i);
+        Anzeigetiles[i]->aktualisieren(-1,i);
     }
 }
 #endif

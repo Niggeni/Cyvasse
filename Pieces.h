@@ -118,6 +118,20 @@ class Crossbowmen :public Figur{
         };
         virtual bool zugErlaubt(int,int);
 };
+class Catapult :public Figur{
+    public:
+        Catapult(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 8;
+        };
+        virtual bool zugErlaubt(int,int);
+};
+class Trebuchet :public Figur{
+    public:
+        Trebuchet(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 9;
+        };
+        virtual bool zugErlaubt(int,int);
+};
 
 
 void Figur::bewegen(int xpos, int ypos){
@@ -206,6 +220,20 @@ bool Spearmen::zugErlaubt(int xpos, int ypos){
     return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
 }
 bool Crossbowmen::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Catapult::zugErlaubt(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+}
+bool Trebuchet::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
     if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
         erlaubt = true;
