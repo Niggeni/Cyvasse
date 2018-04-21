@@ -11,10 +11,10 @@ class Figur{
         SDL_Rect source;
         int Feld_x;
         int Feld_y;
-        int Team;
         int Typ;
         int Mobility;
     public:
+        int Team;
         int numMoves;
         bool Auswahl;
         Figur(int,int,int,SDL_Window*);
@@ -25,6 +25,7 @@ class Figur{
         void platzieren(int,int);
         bool aufFeld(int,int);
         virtual bool zugErlaubt(int,int);
+        virtual bool attack(int,int);
         bool platzierungErlaubt(int,int,int);
         //void bewegen(int,int);
 };
@@ -38,27 +39,6 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     numMoves = 0;
     source = {x: Typ, y: Team, w:128, h:128};
     surf = SDL_GetWindowSurface(win);
-}
-void Figur::aktualisieren(){
-    Rect = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
-    source = {x: 128*Typ, y: 128*Team, w:128, h:128};
-    SDL_BlitSurface(Pieces,&source,surf,&Rect);
-    if (Auswahl){
-        SDL_BlitSurface(Auswahlpic,NULL,surf,&Rect);
-    }
-}
-void Figur::legalanzeigen(){
-    SDL_Rect erlaubteFelder;
-    if (Auswahl){
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if(zugErlaubt(i,j)){
-                    erlaubteFelder = {x:i*128+448,y:j*128+28,w:128,h:128};
-                    SDL_BlitSurface(Erlaubtpic,NULL,surf,&erlaubteFelder);
-                }
-            }
-        }
-    }
 }
 class King :public Figur{
 public:
@@ -117,6 +97,7 @@ class Crossbowmen :public Figur{
             Typ = 7;
         };
         virtual bool zugErlaubt(int,int);
+        virtual bool attack(int,int);
 };
 class Catapult :public Figur{
     public:
@@ -124,6 +105,7 @@ class Catapult :public Figur{
             Typ = 8;
         };
         virtual bool zugErlaubt(int,int);
+        virtual bool attack(int,int);
 };
 class Trebuchet :public Figur{
     public:
@@ -131,9 +113,31 @@ class Trebuchet :public Figur{
             Typ = 9;
         };
         virtual bool zugErlaubt(int,int);
+        virtual bool attack(int,int);
 };
 
 
+void Figur::aktualisieren(){
+    Rect = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
+    source = {x: 128*Typ, y: 128*Team, w:128, h:128};
+    SDL_BlitSurface(Pieces,&source,surf,&Rect);
+    if (Auswahl){
+        SDL_BlitSurface(Auswahlpic,NULL,surf,&Rect);
+    }
+}
+void Figur::legalanzeigen(){
+    SDL_Rect erlaubteFelder;
+    if (Auswahl){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(zugErlaubt(i,j)){
+                    erlaubteFelder = {x:i*128+448,y:j*128+28,w:128,h:128};
+                    SDL_BlitSurface(Erlaubtpic,NULL,surf,&erlaubteFelder);
+                }
+            }
+        }
+    }
+}
 void Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
@@ -169,6 +173,9 @@ bool Figur::platzierungErlaubt(int xpos,int ypos,int Player){
     else{
         return false;
     }
+}
+bool Figur::attack(int xpos,int ypos){
+    return false;
 }
 bool Dragon::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
@@ -240,5 +247,25 @@ bool Trebuchet::zugErlaubt(int xpos, int ypos){
     }
     return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
 }
-// This is the end of the header guard
+bool Crossbowmen::attack(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+        erlaubt = true;
+    }
+    return erlaubt;
+}
+bool Catapult::attack(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=2 && abs(ypos - Feld_y)<=2){
+        erlaubt = true;
+    }
+    return erlaubt;
+}
+bool Trebuchet::attack(int xpos, int ypos){
+    bool erlaubt=false;
+    if (abs(xpos-Feld_x) <=3 && abs(ypos - Feld_y)<=3){
+        erlaubt = true;
+    }
+    return erlaubt;
+}
 #endif

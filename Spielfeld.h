@@ -10,6 +10,7 @@ class Spielfeld{
         SDL_Surface *Back;
         SDL_Surface *Vorhang;
         SDL_Surface *Ende;
+        SDL_Surface *Endepressed;
         SDL_Surface *Attackpic;
         SDL_Surface *Attackpressed;
         SDL_Window *win;
@@ -43,6 +44,7 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
     Back = IMG_Load("Sources/Back.png");
     Vorhang = IMG_Load("Sources/Landschaft/Vorhang.png");
     Ende = IMG_Load("Sources/END.png");
+    Endepressed = IMG_Load("Sources/END_pressed.png");
     Attackpic = IMG_Load("Sources/Attack.png");
     Attackpressed = IMG_Load("Sources/Attack_pressed.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
@@ -63,8 +65,14 @@ Spielfeld::Spielfeld(SDL_Window *winvar){
 void Spielfeld::aktualisieren() {
     //SDL_BlitSurface(Back,NULL,surf,NULL);
     SDL_BlitSurface(Feldimage,NULL,surf,NULL);
-    SDL_Rect Enddest = {x:1152+448,y:924,w:256,h:128};
-    SDL_BlitSurface(Ende,NULL,surf,&Enddest);
+    if(Zugbeendet){
+        SDL_Rect Enddest = {x:1152+448,y:924+15,w:252,h:113};
+        SDL_BlitSurface(Endepressed,NULL,surf,&Enddest);
+    }
+    else{
+        SDL_Rect Enddest = {x:1152+448,y:924,w:256,h:128};
+        SDL_BlitSurface(Ende,NULL,surf,&Enddest);
+    }
     if(Attack){
         SDL_Rect Attackdest = {x:1152+448,y:796+15,w:252,h:113};
         SDL_BlitSurface(Attackpressed,NULL,surf,&Attackdest);
@@ -123,14 +131,15 @@ void Spielfeld::aufbauen(int Playervar){
 void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
     if(Phase == 0){
         for (int i = 0; i < int(Figuren.size()); i++) {
+            if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
+                Figuren[i]->Auswahl = !Figuren[i]->Auswahl;
+            }
             if(Figuren[i]->Auswahl){
                 if (Figuren[i]->platzierungErlaubt(Feld_x,Feld_y,Player)){
                     Figuren[i]->platzieren(Feld_x,Feld_y);
                     schlagen(Feld_x,Feld_y,i);
                     Figuren[i]->Auswahl = false;
                 }
-            }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
-                Figuren[i]->Auswahl = true;
             }
 
         }
@@ -138,13 +147,17 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
     else{
         for (int i = 0; i < int(Figuren.size()); i++) {
             if(Figuren[i]->Auswahl){
+                if(Attack&&Figuren[i]->attack(Feld_x,Feld_y)){
+                    schlagen(Feld_x,Feld_y,i);
+                }
                 if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
                     Figuren[i]->bewegen(Feld_x,Feld_y);
                     schlagen(Feld_x,Feld_y,i);
                 }else if (Figuren[i]->numMoves == 0){
                     Figuren[i]->Auswahl = false;
                 }
-            }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
+                Attack = false;
+            }else if (Figuren[i]->aufFeld(Feld_x,Feld_y) && Figuren[i]->Team == Player){
                 Figuren[i]->Auswahl = true;
             }
 
@@ -179,24 +192,30 @@ void Spielfeld::feldinteract(int Feld_x, int Feld_y) {
 
 int * Spielfeld::getinput(SDL_Event e){
     static int Input[3] = {0};
-
+    if (Phase == 1){
+        Zugbeendet = false;
+    }
     if (e.type == SDL_MOUSEBUTTONDOWN) {
         int Maus_x = e.button.x;
         int Maus_y = e.button.y;
         int Feld_x = (Maus_x-64)/128 -3; //offset
         int Feld_y = (Maus_y-28)/128;
-        figurinteract(Feld_x,Feld_y);
-        feldinteract(Feld_x,Feld_y);
+        if(Feld_y == 7 && (Feld_x == 9 || Feld_x ==10)){
+            Zugbeendet = true;
+            Player = 1- Player;
+            aktualisieren();
+        }
+        else if(Feld_y == 6 && (Feld_x == 9 || Feld_x ==10)){
+            Attack = !Attack;
+        }
+        else{
+            figurinteract(Feld_x,Feld_y);
+            feldinteract(Feld_x,Feld_y);
+        }
         Input[0] = 1;
         Input[1] = Feld_x;
         Input[2] = Feld_y;
         //std::cout << Feld_x << " " << Feld_y<< '\n';
-        if(Feld_y == 7 && (Feld_x == 9 || Feld_x ==10)){
-            Zugbeendet = true;
-        }
-        if(Feld_y == 6 && (Feld_x == 9 || Feld_x ==10)){
-            Attack = !Attack;
-        }
     }
     return Input; //noch nicht benutzt
 }
