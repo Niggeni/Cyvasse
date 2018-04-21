@@ -22,7 +22,7 @@ class Figur{
         virtual ~Figur(){};
         void aktualisieren();
         void legalanzeigen();
-        void bewegen(int,int);
+        bool bewegen(int,int);
         void platzieren(int,int);
         bool aufFeld(int,int);
         virtual bool zugErlaubt(int,int);
@@ -143,14 +143,17 @@ void Figur::legalanzeigen(){
         }
     }
 }
-void Figur::bewegen(int xpos, int ypos){
+bool Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
     numMoves++;
+    bool Zugbeendet = false;
     if (numMoves >= Mobility){
         Auswahl = false;
         numMoves = 0;
+        Zugbeendet = true;
     }
+    return(Zugbeendet);
 }
 void Figur::platzieren(int xpos, int ypos){
     Feld_x = xpos;

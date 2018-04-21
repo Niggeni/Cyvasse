@@ -138,7 +138,6 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
             if(Figuren[i]->Auswahl){
                 if (Figuren[i]->platzierungErlaubt(Feld_x,Feld_y,Player)){
                     Figuren[i]->platzieren(Feld_x,Feld_y);
-                    schlagen(Feld_x,Feld_y,i);
                     Figuren[i]->Auswahl = false;
                 }
             }
@@ -156,7 +155,8 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
                         schlagen(Feld_x,Feld_y,i);
                     }
                 }else if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
-                    Figuren[i]->bewegen(Feld_x,Feld_y);
+                    Zugbeendet = Figuren[i]->bewegen(Feld_x,Feld_y);
+
                 }
                 if (Figuren[i]->numMoves == 0){
                     Figuren[i]->Auswahl = false;
@@ -167,6 +167,10 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
                 Figuren[i]->Auswahl = true;
             }
 
+        }
+        if(Zugbeendet){
+            Player = 1- Player;
+            Zugbeendet = false;
         }
     }
 }
@@ -236,6 +240,7 @@ void Spielfeld::schlagen(int x,int y,int currfig){
             //std::cout << Figuren.size() << '\n';
         }
     }
+    Zugbeendet = true;
 }
 void Spielfeld::aufbauanzeige(int Player){
     aktualisieren();
