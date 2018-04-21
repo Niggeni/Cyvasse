@@ -17,6 +17,7 @@ class Figur{
         int Team;
         int numMoves;
         bool Auswahl;
+        bool Fernkampf;
         Figur(int,int,int,SDL_Window*);
         virtual ~Figur(){};
         void aktualisieren();
@@ -35,6 +36,7 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     Feld_x = xpos;
     Feld_y = ypos;
     Team = Teamvar;
+    Fernkampf = false;
     Mobility = 1;
     numMoves = 0;
     source = {x: Typ, y: Team, w:128, h:128};
@@ -95,6 +97,7 @@ class Crossbowmen :public Figur{
     public:
         Crossbowmen(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 7;
+            Fernkampf = true;
         };
         virtual bool zugErlaubt(int,int);
         virtual bool attack(int,int);
@@ -103,6 +106,7 @@ class Catapult :public Figur{
     public:
         Catapult(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 8;
+            Fernkampf = true;
         };
         virtual bool zugErlaubt(int,int);
         virtual bool attack(int,int);
@@ -111,6 +115,7 @@ class Trebuchet :public Figur{
     public:
         Trebuchet(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
             Typ = 9;
+            Fernkampf = true;
         };
         virtual bool zugErlaubt(int,int);
         virtual bool attack(int,int);
@@ -175,7 +180,7 @@ bool Figur::platzierungErlaubt(int xpos,int ypos,int Player){
     }
 }
 bool Figur::attack(int xpos,int ypos){
-    return false;
+    return zugErlaubt(xpos,ypos);
 }
 bool Dragon::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;

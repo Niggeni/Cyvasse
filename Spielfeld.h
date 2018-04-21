@@ -33,6 +33,7 @@ class Spielfeld{
         void feldinteract(int,int);
         void aufbauen(int);
         void aufbauanzeige(int);
+        int figurAufPos(int,int);
 };
 Spielfeld::Spielfeld(SDL_Window *winvar){
     win = winvar;
@@ -147,16 +148,21 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
     else{
         for (int i = 0; i < int(Figuren.size()); i++) {
             if(Figuren[i]->Auswahl){
-                if(Attack&&Figuren[i]->attack(Feld_x,Feld_y)){
-                    schlagen(Feld_x,Feld_y,i);
-                }
-                if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
+                if(figurAufPos(Feld_x,Feld_y) != -1){
+                    if(Attack&&Figuren[i]->attack(Feld_x,Feld_y)){
+                        if (!Figuren[i]->Fernkampf){
+                            Figuren[i]->bewegen(Feld_x,Feld_y);
+                        }
+                        schlagen(Feld_x,Feld_y,i);
+                    }
+                }else if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
                     Figuren[i]->bewegen(Feld_x,Feld_y);
-                    schlagen(Feld_x,Feld_y,i);
-                }else if (Figuren[i]->numMoves == 0){
+                }
+                if (Figuren[i]->numMoves == 0){
                     Figuren[i]->Auswahl = false;
                 }
                 Attack = false;
+
             }else if (Figuren[i]->aufFeld(Feld_x,Feld_y) && Figuren[i]->Team == Player){
                 Figuren[i]->Auswahl = true;
             }
@@ -238,5 +244,15 @@ void Spielfeld::aufbauanzeige(int Player){
     for (int i = 0; i < int(Anzeigetiles.size()); i++) {
         Anzeigetiles[i]->aktualisieren(-1,i);
     }
+}
+int Spielfeld::figurAufPos(int x,int y){
+    int Auswahl = -1;
+    for (int i = 0; i < int(Figuren.size()); i++) {
+        if(Figuren[i]->aufFeld(x,y)){
+            Auswahl = i;
+            break;
+        }
+    }
+    return Auswahl;
 }
 #endif
