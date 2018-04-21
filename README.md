@@ -10,14 +10,14 @@ Verwendete Grafiken aus [freepik](https://de.freepik.com/vektoren-kostenlos/drac
 
 ### Inhalte:
 ##### Essentielle Inhalte:
-- [ ] Grafikunterstützte Oberfläche
-  - [ ] Texturen für Spielfiguren (10x2) Bilder 128x128 Px
+- [x] Grafikunterstützte Oberfläche
+  - [x] Texturen für Spielfiguren (10x2) Bilder 128x128 Px
   - [x] Texturen für Spielfeld (Größe: 8x8) Bilder 128x128 Px
 - [x] Spielfiguren mit Maus bewegen
   - [x] Nur legale Züge werden zugelassen
   - [x] Spielfigur entfernen, wenn sie geschlagen wurden
-- [ ] Aufbauphase
-  - [ ] Wenn Spieler 2 am Zug ist wird der dem anderen Spieler gehörende Teil des Spielfelds abgedeckt
+- [x] Aufbauphase
+  - [x] Wenn Spieler 2 am Zug ist wird der dem anderen Spieler gehörende Teil des Spielfelds abgedeckt
 
 ##### Optionale Features:
 - [ ] Fehlermeldungen bei nicht legalen Zügen
