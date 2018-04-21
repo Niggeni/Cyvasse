@@ -211,9 +211,17 @@ int * Spielfeld::getinput(SDL_Event e){
         int Feld_x = (Maus_x-64)/128 -3; //offset
         int Feld_y = (Maus_y-28)/128;
         if(Feld_y == 7 && (Feld_x == 9 || Feld_x ==10)){
-            Zugbeendet = true;
-            Player = 1- Player;
-            aktualisieren();
+            bool beendenerlaubt = true;
+            for (int i = 0; i < int(Figuren.size()); i++) {
+                if(!Figuren[i]->platziert){
+                    beendenerlaubt = false;
+                }
+            }
+            if(beendenerlaubt){
+                Zugbeendet = true;
+                Player = 1- Player;
+                aktualisieren();
+            }
         }
         else if(Feld_y == 6 && (Feld_x == 9 || Feld_x ==10)){
             Attack = !Attack;

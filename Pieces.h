@@ -18,6 +18,7 @@ class Figur{
         int numMoves;
         bool Auswahl;
         bool Fernkampf;
+        bool platziert;
         Figur(int,int,int,SDL_Window*);
         virtual ~Figur(){};
         void aktualisieren();
@@ -41,71 +42,60 @@ Figur::Figur(int xpos,int ypos,int Teamvar,SDL_Window *win){
     numMoves = 0;
     source = {x: Typ, y: Team, w:128, h:128};
     surf = SDL_GetWindowSurface(win);
+    platziert = false;
 }
-class King :public Figur{
-public:
-    King(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-        Typ = 0;
-    };
-    virtual bool zugErlaubt(int,int);
-};
-class Dragon :public Figur{
-    public:
-        Dragon(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 1;
-        };
-        virtual bool zugErlaubt(int,int);
-};
-class Heavy_Cav :public Figur{
-    public:
-        Heavy_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 2;
-            Mobility = 2;
-        };
-        virtual bool zugErlaubt(int,int);
-};
-class Light_Cav :public Figur{
-    public:
-        Light_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 3;
-            Mobility = 3;
-        };
-        virtual bool zugErlaubt(int,int);
-};
-class Elephant :public Figur{
-    public:
-        Elephant(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 4;
-        };
-        virtual bool zugErlaubt(int,int);
-};
+
 class Rabble :public Figur{
     public:
         Rabble(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 5;
+            Typ = 0;
         };
         virtual bool zugErlaubt(int,int);
 };
 class Spearmen :public Figur{
     public:
         Spearmen(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 6;
+            Typ = 1;
         };
         virtual bool zugErlaubt(int,int);
 };
 class Crossbowmen :public Figur{
     public:
         Crossbowmen(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 7;
+            Typ = 2;
             Fernkampf = true;
         };
         virtual bool zugErlaubt(int,int);
         virtual bool attack(int,int);
 };
+class Light_Cav :public Figur{
+public:
+    Light_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+        Typ = 3;
+        Mobility = 3;
+    };
+    virtual bool zugErlaubt(int,int);
+};
+class Heavy_Cav :public Figur{
+    public:
+        Heavy_Cav(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 4;
+            Mobility = 2;
+        };
+        virtual bool zugErlaubt(int,int);
+};
+
+class Elephant :public Figur{
+    public:
+        Elephant(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 5;
+        };
+        virtual bool zugErlaubt(int,int);
+};
 class Catapult :public Figur{
     public:
         Catapult(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 8;
+            Typ = 6;
             Fernkampf = true;
         };
         virtual bool zugErlaubt(int,int);
@@ -114,13 +104,28 @@ class Catapult :public Figur{
 class Trebuchet :public Figur{
     public:
         Trebuchet(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
-            Typ = 9;
+            Typ = 7;
             Fernkampf = true;
         };
         virtual bool zugErlaubt(int,int);
         virtual bool attack(int,int);
 };
 
+class Dragon :public Figur{
+    public:
+        Dragon(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+            Typ = 8 ;
+        };
+        virtual bool zugErlaubt(int,int);
+};
+
+class King :public Figur{
+public:
+    King(int xpos,int ypos,int Teamvar,SDL_Window *win): Figur(xpos,ypos,Teamvar,win){
+        Typ = 9;
+    };
+    virtual bool zugErlaubt(int,int);
+};
 
 void Figur::aktualisieren(){
     Rect = {x:Feld_x*128+448,y:Feld_y*128+28,w:128,h:128};
@@ -158,6 +163,7 @@ bool Figur::bewegen(int xpos, int ypos){
 void Figur::platzieren(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
+    platziert = true;
 }
 bool Figur::aufFeld(int xpos, int ypos){
     if (xpos == Feld_x && ypos == Feld_y){
