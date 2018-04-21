@@ -10,11 +10,14 @@ class Spielfeld{
         SDL_Surface *Back;
         SDL_Surface *Vorhang;
         SDL_Surface *Ende;
+        SDL_Surface *Attackpic;
+        SDL_Surface *Attackpressed;
         SDL_Window *win;
         SDL_Rect source;
         SDL_Rect dest;
         int Player;
         bool Zugbeendet;
+        bool Attack;
     public:
         int Phase;
         vector<Figur*> Figuren;
@@ -33,12 +36,15 @@ class Spielfeld{
 Spielfeld::Spielfeld(SDL_Window *winvar){
     win = winvar;
     Zugbeendet = false;
+    Attack = false;
     surf = SDL_GetWindowSurface(win);
     dest =  {x:448,y:28,w:1920,h:1080};
     Feldimage = IMG_Load("Sources/Board.png");
     Back = IMG_Load("Sources/Back.png");
     Vorhang = IMG_Load("Sources/Landschaft/Vorhang.png");
     Ende = IMG_Load("Sources/END.png");
+    Attackpic = IMG_Load("Sources/Attack.png");
+    Attackpressed = IMG_Load("Sources/Attack_pressed.png");
     source  = {x:0, y: 0, w:8*128, h:8*128};
     vector <Feld*> Tilessetup;
     Grass *Grasstile = new Grass(win);
@@ -59,6 +65,13 @@ void Spielfeld::aktualisieren() {
     SDL_BlitSurface(Feldimage,NULL,surf,NULL);
     SDL_Rect Enddest = {x:1152+448,y:924,w:256,h:128};
     SDL_BlitSurface(Ende,NULL,surf,&Enddest);
+    if(Attack){
+        SDL_Rect Attackdest = {x:1152+448,y:796+15,w:252,h:113};
+        SDL_BlitSurface(Attackpressed,NULL,surf,&Attackdest);
+    }else{
+        SDL_Rect Attackdest = {x:1152+448,y:796,w:256,h:128};
+        SDL_BlitSurface(Attackpic,NULL,surf,&Attackdest);
+    }
     for (int i = 0; i < int(Figuren.size()); i++) {
         Figuren[i]->aktualisieren();
         if(Phase != 0){
@@ -133,7 +146,6 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
                 }
             }else if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
                 Figuren[i]->Auswahl = true;
-                //std::cout << "test" << '\n';
             }
 
         }
@@ -181,6 +193,9 @@ int * Spielfeld::getinput(SDL_Event e){
         //std::cout << Feld_x << " " << Feld_y<< '\n';
         if(Feld_y == 7 && (Feld_x == 9 || Feld_x ==10)){
             Zugbeendet = true;
+        }
+        if(Feld_y == 6 && (Feld_x == 9 || Feld_x ==10)){
+            Attack = !Attack;
         }
     }
     return Input; //noch nicht benutzt
