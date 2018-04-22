@@ -14,7 +14,6 @@ using namespace std;
 int main(int, char**) {
     SDL_Window *win = SDL_CreateWindow("Cyvasse", 0, 0, 1920 , 1080, SDL_WINDOW_SHOWN);
     Spielfeld Brett(win);
-    //Berg ME(win);
     SDL_Event Event;
     Brett.aufbauen(0);
     Brett.aufbauen(1);
@@ -23,11 +22,9 @@ int main(int, char**) {
         while( SDL_PollEvent( &Event ) != 0 ) {
             Brett.getinput(Event);
             Brett.aktualisieren();
-        //    ME.aktualisieren(2,3);
             SDL_UpdateWindowSurface(win);
         }
     }
     SDL_Delay(100000);
     return 1;
 }
- 
