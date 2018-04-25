@@ -212,9 +212,10 @@ int * Spielfeld::getinput(SDL_Event e){
         int Feld_y = (Maus_y-28)/128;
         if(Feld_y == 7 && (Feld_x == 9 || Feld_x ==10)){
             for (int i = 0; i < int(Figuren.size()); i++) {
-                std::cout << Figuren[i]->platziert << '\n';
                 if(!Figuren[i]->platziert){
                     delete Figuren[i];
+                    Figuren.erase(Figuren.begin()+i);
+                    i--;
                 }
             }
             Zugbeendet = true;
