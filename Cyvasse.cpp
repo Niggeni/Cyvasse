@@ -28,5 +28,3 @@ int main(int, char**) {
     SDL_Delay(100000);
     return 1;
 }
-
- 
