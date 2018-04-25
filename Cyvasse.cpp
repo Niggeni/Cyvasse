@@ -16,7 +16,7 @@ int main(int, char**) {
     Spielfeld Brett(win);
     SDL_Event Event;
     Brett.aufbauen(0);
-    Brett.aufbauen(1);
+    //Brett.aufbauen(1);
     Brett.Phase = 1;
     while (true){
         while( SDL_PollEvent( &Event ) != 0 ) {
@@ -24,12 +24,7 @@ int main(int, char**) {
             Brett.aktualisieren();
             SDL_UpdateWindowSurface(win);
         }
-    }
+    } 
     SDL_Delay(100000);
     return 1;
 }
-<<<<<<< HEAD
-
- 
-=======
->>>>>>> master
