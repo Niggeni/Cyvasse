@@ -1,4 +1,3 @@
-
 #ifndef PIECES_H
 #define PIECES_H
 #include "IMG.h"
@@ -36,7 +35,7 @@ class Figur{
         //void bewegen(int,int);
 };
 
-Figur::Figur(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win){
+Figur::Figur(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win){
     Auswahl = false;
     Feld_x = xpos;
     Feld_y = ypos;
@@ -52,21 +51,21 @@ Figur::Figur(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL
 
 class Rabble :public Figur{
     public:
-        Rabble(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Rabble(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 0;
         };
         virtual bool zugErlaubt(int,int);
 };
 class Spearmen :public Figur{
     public:
-        Spearmen(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Spearmen(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 1;
         };
         virtual bool zugErlaubt(int,int);
 };
 class Crossbowmen :public Figur{
     public:
-        Crossbowmen(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Crossbowmen(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 2;
             Fernkampf = true;
         };
@@ -75,7 +74,7 @@ class Crossbowmen :public Figur{
 };
 class Light_Cav :public Figur{
 public:
-    Light_Cav(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+    Light_Cav(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
         Typ = 3;
         Mobility = 3;
     };
@@ -83,7 +82,7 @@ public:
 };
 class Heavy_Cav :public Figur{
     public:
-        Heavy_Cav(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Heavy_Cav(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 4;
             Mobility = 2;
         };
@@ -92,14 +91,14 @@ class Heavy_Cav :public Figur{
 
 class Elephant :public Figur{
     public:
-        Elephant(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Elephant(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 5;
         };
         virtual bool zugErlaubt(int,int);
 };
 class Catapult :public Figur{
     public:
-        Catapult(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Catapult(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 6;
             Fernkampf = true;
         };
@@ -108,7 +107,7 @@ class Catapult :public Figur{
 };
 class Trebuchet :public Figur{
     public:
-        Trebuchet(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Trebuchet(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 7;
             Fernkampf = true;
         };
@@ -118,7 +117,7 @@ class Trebuchet :public Figur{
 
 class Dragon :public Figur{
     public:
-        Dragon(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+        Dragon(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
             Typ = 8 ;
         };
         virtual bool zugErlaubt(int,int);
@@ -126,7 +125,7 @@ class Dragon :public Figur{
 
 class King :public Figur{
 public:
-    King(int xpos,int ypos,int Teamvar,vector<vector<Feld*>>* Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
+    King(int xpos,int ypos,int Teamvar,vector<vector<Feld*>> *Feldervar, SDL_Window *win): Figur(xpos,ypos,Teamvar,Feldervar,win){
         Typ = 9;
     };
     virtual bool zugErlaubt(int,int);
@@ -169,7 +168,7 @@ void Figur::platzieren(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
     platziert = true;
-    //std::cout << Felder[xpos][ypos]->Typ << '\n';
+    //std::cout << (*Felder)[xpos][ypos]->Typ << '\n';
 }
 bool Figur::aufFeld(int xpos, int ypos){
     if (xpos == Feld_x && ypos == Feld_y){
@@ -179,7 +178,7 @@ bool Figur::aufFeld(int xpos, int ypos){
     }
 }
 bool Figur::zugErlaubt(int xpos,int ypos){
-    if (xpos >=0 && xpos < 8&&ypos >=0 && ypos < 8&& !(aufFeld(xpos,ypos)) && Felder[xpos][ypos]->Typ != 0){
+    if (xpos >=0 && xpos < 8&&ypos >=0 && ypos < 8&& !(aufFeld(xpos,ypos)) && (*Felder)[xpos][ypos]->Typ != 0){
         return true;
     }
     else{
@@ -187,8 +186,8 @@ bool Figur::zugErlaubt(int xpos,int ypos){
     }
 }
 bool Figur::platzierungErlaubt(int xpos,int ypos,int Player){
-    if (xpos >=0 && xpos < 8&&ypos >=4- 4*Player && ypos < 8-4*Player&& !(aufFeld(xpos,ypos)) && Felder[ypos][xpos]->Typ != 0 ){
-        std::cout << Felder[xpos][ypos]->Typ << '\n';
+    if (xpos >=0 && xpos < 8&&ypos >=4- 4*Player && ypos < 8-4*Player&& !(aufFeld(xpos,ypos)) && (*Felder)[xpos][ypos]->Typ != 0 ){
+        std::cout << (*Felder)[xpos][ypos]->Typ << '\n';
         return true;
     }
     else{

@@ -103,16 +103,16 @@ void Spielfeld::aufbauen(int Playervar){
     // int nWald = 6;
     // int nFestung = 1;
     Anzeigefiguren.clear();
-     Figuren.push_back(new King(-3,0,Player,Felder,win));
-     Figuren.push_back(new Dragon(-3,1,Player,Felder,win));
-     Figuren.push_back(new Heavy_Cav(-3,2,Player,Felder,win));
-     Figuren.push_back(new Light_Cav(-3,3,Player,Felder,win));
-     Figuren.push_back(new Elephant(-3,4,Player,Felder,win));
-     Figuren.push_back(new Rabble(-3,5,Player,Felder,win));
-     Figuren.push_back(new Spearmen(-3,6,Player,Felder,win));
-     Figuren.push_back(new Crossbowmen(-3,7,Player,Felder,win));
-     Figuren.push_back(new Catapult(-2,0,Player,Felder,win));
-     Figuren.push_back(new Trebuchet(-2,1,Player,Felder,win));
+     Figuren.push_back(new King(-3,0,Player,&Felder,win));
+     Figuren.push_back(new Dragon(-3,1,Player,&Felder,win));
+     Figuren.push_back(new Heavy_Cav(-3,2,Player,&Felder,win));
+     Figuren.push_back(new Light_Cav(-3,3,Player,&Felder,win));
+     Figuren.push_back(new Elephant(-3,4,Player,&Felder,win));
+     Figuren.push_back(new Rabble(-3,5,Player,&Felder,win));
+     Figuren.push_back(new Spearmen(-3,6,Player,&Felder,win));
+     Figuren.push_back(new Crossbowmen(-3,7,Player,&Felder,win));
+     Figuren.push_back(new Catapult(-2,0,Player,&Felder,win));
+     Figuren.push_back(new Trebuchet(-2,1,Player,&Felder,win));
 
 
     SDL_Event Event;
