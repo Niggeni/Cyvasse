@@ -7,6 +7,9 @@
 Es handelt sich hierbei um ein Brettspiel, welches in vielen Aspekten an Schach erinnert. Dieses Projekt dient der Entwicklung eines Programms, mit welchem zwei Personen lokal gegeneinander spielen können.
 Die Regeln sollen vorläufig entnommen werden von der Seite http://gameofcyvasse.com/ , können aber unter Umständen noch angepasst werden.
 Grafiken teils verwendet aus [freepik](https://de.freepik.com), oder selbst erstellt.
+### Installation:
+Einfach die Datei "Cyvasse.rar" in ein gewünschtes Verzeichnis entpacken und danach "Cyvasse.exe" ausführen.
+Leider ist das Spiel nur mit einer Auflösung von 1920x1080 spielbar!
 ### Wie man spielt:
 Die genauen Regeln sind in http://gameofcyvasse.com/ zu finden. Zunächst gibt es eine Phase, in der die Spieler bei verdecktem gegnerischen Feld ihre Figuren und Landschaften platzieren können, indem zuerst auf die entsprechende Figur oder Landschaft in der Auswahlleiste geklickt wird und diese dann durch einen Klick auf das Spielfeld an die gewünschte Position bringt. Figuren können auch nach der ersten Platzierung noch ausgewählt werden. Jeder Spieler beendet seinen Aufbau, indem er auf "End Turn" klickt.
 Hat das Spiel begonnen, so können Figuren ähnlich bewegt werden, wie in der Aufbauphase, wobei hier die Regeln für die Figurenbewegungen gelten. Ist der "Attack"- Button aktiviert, dann greift die ausgewählte Figur das danach anvisierte Spielfeld an. Eine Bewegung auf ein besetztes Feld ohne gleichzeitigen Angriff ist nicht erlaubt.
