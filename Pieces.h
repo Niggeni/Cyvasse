@@ -157,6 +157,12 @@ bool Figur::bewegen(int xpos, int ypos){
     Feld_x = xpos;
     Feld_y = ypos;
     numMoves++;
+    if ((*Felder)[xpos][ypos]->Typ == 1){
+        numMoves = Mobility;
+    }
+    if ((*Felder)[xpos][ypos]->Typ == 2){
+        numMoves++;
+    }
     bool Zugbeendet = false;
     if (numMoves >= Mobility){
         Auswahl = false;
@@ -282,21 +288,21 @@ bool Trebuchet::zugErlaubt(int xpos, int ypos){
 }
 bool Crossbowmen::attack(int xpos, int ypos){
     bool erlaubt=false;
-    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1){
+    if (abs(xpos-Feld_x) <=1 && abs(ypos - Feld_y)<=1&& (*Felder)[Feld_x][Feld_y]->Typ != 1){
         erlaubt = true;
     }
     return erlaubt;
 }
 bool Catapult::attack(int xpos, int ypos){
     bool erlaubt=false;
-    if (abs(xpos-Feld_x) <=2 && abs(ypos - Feld_y)<=2){
+    if (abs(xpos-Feld_x) <=2 && abs(ypos - Feld_y)<=2&& (*Felder)[Feld_x][Feld_y]->Typ != 1){
         erlaubt = true;
     }
     return erlaubt;
 }
 bool Trebuchet::attack(int xpos, int ypos){
     bool erlaubt=false;
-    if (abs(xpos-Feld_x) <=3 && abs(ypos - Feld_y)<=3){
+    if (abs(xpos-Feld_x) <=3 && abs(ypos - Feld_y)<=3&& (*Felder)[Feld_x][Feld_y]->Typ != 1){
         erlaubt = true;
     }
     return erlaubt;

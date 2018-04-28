@@ -149,7 +149,7 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
             if(Figuren[i]->Auswahl){
                 if(figurAufPos(Feld_x,Feld_y) != -1){
                     if(Attack&&Figuren[i]->attack(Feld_x,Feld_y)){
-                        if (!Figuren[i]->Fernkampf){
+                        if (!Figuren[i]->Fernkampf && Felder[Feld_x][Feld_y]->Typ != 4){
                             Figuren[i]->bewegen(Feld_x,Feld_y);
                         }
                         schlagen(Feld_x,Feld_y,i);
@@ -241,8 +241,13 @@ void Spielfeld::schlagen(int x,int y,int currfig){
         if (i==currfig){
             continue;
         }else if (Figuren[i]->aufFeld(x,y)){
-            delete Figuren[i];
-            Figuren.erase(Figuren.begin()+i);
+            if(Felder[x][y]->Typ == 4){
+                Felder[x][y] = Anzeigetiles[0]->clone();
+            }
+            else{
+                delete Figuren[i];
+                Figuren.erase(Figuren.begin()+i);
+            }
             break;
             //std::cout << Figuren.size() << '\n';
         }
