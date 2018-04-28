@@ -133,6 +133,12 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
     if(Phase == 0){
         for (int i = 0; i < int(Figuren.size()); i++) {
             if (Figuren[i]->aufFeld(Feld_x,Feld_y)){
+                for (int j = 0; j < int(Figuren.size()); j++) {
+                    if(i==j){
+                        continue;
+                    }
+                    Figuren[j]->Auswahl = false;
+                }
                 Figuren[i]->Auswahl = !Figuren[i]->Auswahl;
             }
             if(Figuren[i]->Auswahl){
@@ -227,7 +233,9 @@ int * Spielfeld::getinput(SDL_Event e){
         }
         else{
             figurinteract(Feld_x,Feld_y);
-            feldinteract(Feld_x,Feld_y);
+            if(Phase == 0){
+                feldinteract(Feld_x,Feld_y);
+            }
         }
         Input[0] = 1;
         Input[1] = Feld_x;
