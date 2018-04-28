@@ -31,7 +31,7 @@ class Figur{
         bool aufFeld(int,int);
         virtual bool zugErlaubt(int,int);
         virtual bool attack(int,int);
-        bool platzierungErlaubt(int,int,int);
+        virtual bool platzierungErlaubt(int,int,int);
         //void bewegen(int,int);
 };
 
@@ -121,6 +121,7 @@ class Dragon :public Figur{
             Typ = 8 ;
         };
         virtual bool zugErlaubt(int,int);
+        virtual bool platzierungErlaubt(int,int,int);
 };
 
 class King :public Figur{
@@ -187,7 +188,7 @@ bool Figur::zugErlaubt(int xpos,int ypos){
 }
 bool Figur::platzierungErlaubt(int xpos,int ypos,int Player){
     if (xpos >=0 && xpos < 8&&ypos >=4- 4*Player && ypos < 8-4*Player&& !(aufFeld(xpos,ypos)) && (*Felder)[xpos][ypos]->Typ != 0 ){
-        std::cout << (*Felder)[xpos][ypos]->Typ << '\n';
+
         return true;
     }
     else{
@@ -200,10 +201,21 @@ bool Figur::attack(int xpos,int ypos){
 }
 bool Dragon::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
-    if (xpos == Feld_x || ypos == Feld_y || abs(xpos-Feld_x) == abs(ypos - Feld_y)){
+    if (xpos >=0 && xpos < 8&&ypos >=0 && ypos < 8&& !(aufFeld(xpos,ypos))){
         erlaubt = true;
     }
-    return(Figur::zugErlaubt(xpos,ypos)&&erlaubt);
+    if (!(xpos == Feld_x || ypos == Feld_y || abs(xpos-Feld_x) == abs(ypos - Feld_y))){
+        erlaubt = false;
+    }
+    return(erlaubt);
+}
+bool Dragon::platzierungErlaubt(int xpos,int ypos,int Player){
+    if (xpos >=0 && xpos < 8&&ypos >=4- 4*Player && ypos < 8-4*Player&& !(aufFeld(xpos,ypos))){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 bool King::zugErlaubt(int xpos, int ypos){
     bool erlaubt=false;
