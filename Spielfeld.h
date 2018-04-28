@@ -159,6 +159,7 @@ void Spielfeld::figurinteract(int Feld_x, int Feld_y) {
                             Figuren[i]->bewegen(Feld_x,Feld_y);
                         }
                         schlagen(Feld_x,Feld_y,i);
+                        Zugbeendet = true;
                     }
                 }else if (Figuren[i]->zugErlaubt(Feld_x,Feld_y)){
                     Zugbeendet = Figuren[i]->bewegen(Feld_x,Feld_y);
